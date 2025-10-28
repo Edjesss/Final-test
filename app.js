@@ -780,8 +780,11 @@ function computeKPIs(occPct) {
   
   const opex = getOPEX();
   const cleaning = getCleaningCost(rev.totalNights);
+  const mort = computeMortgage();
+  const mortgageAnnual = mort.pmt * 12; // Convert monthly payment to annual
+  
   const totalOPEX = opex.maintenance + cleaning + opex.electricity + opex.water + 
-                    opex.internet + opex.insurance + opex.reserve + opex.gov + opex.hoa;
+                    opex.internet + opex.insurance + opex.reserve + opex.gov + opex.hoa + mortgageAnnual;
   
   const ownerNet = ownerGross - totalOPEX;
   
@@ -794,7 +797,7 @@ function computeKPIs(occPct) {
   
   return {
     totalRev, netAfterOTA, mgmtFee, ownerGross, totalOPEX, ownerNet, capRate, adr, revpar,
-    opex: { ...opex, cleaning }, rev
+    opex: { ...opex, cleaning, mortgage: mortgageAnnual }, rev
   };
 }
 
@@ -962,11 +965,12 @@ function renderOPEXChart(opex) {
     { label: 'Insurance', value: opex.insurance },
     { label: 'HOA', value: opex.hoa },
     { label: 'Reserve', value: opex.reserve },
-    { label: 'Gov', value: opex.gov }
+    { label: 'Gov', value: opex.gov },
+    { label: 'Mortgage', value: opex.mortgage || 0 }
   ];
   const total = data.reduce((s, d) => s + d.value, 0);
   
-  const colors = ['#1fb6ff','#12d0b4','#31d158','#ffc107','#ff5a5f','#9b59b6','#3498db','#e67e22','#95a5a6'];
+  const colors = ['#1fb6ff','#12d0b4','#31d158','#ffc107','#ff5a5f','#9b59b6','#3498db','#e67e22','#95a5a6','#e74c3c'];
   
   let svg = `<svg width="100%" height="400" viewBox="0 0 700 400">`;
   let startAngle = 0;
@@ -987,7 +991,7 @@ function renderOPEXChart(opex) {
   });
   
   // Legend
-  let ly = 50;
+  let ly = 20;
   data.forEach((d, i) => {
     svg += `<rect x="450" y="${ly}" width="20" height="20" fill="${colors[i % colors.length]}"/>`;
     svg += `<text x="480" y="${ly + 15}" fill="#e9eefb" font-size="14">${d.label}: ${fmt.pct(total > 0 ? d.value / total * 100 : 0, 1)}</text>`;
@@ -1198,7 +1202,8 @@ function renderOPEXDetailTable(opex, total) {
     ['Insurance', opex.insurance],
     ['HOA', opex.hoa],
     ['Repairs Reserve', opex.reserve],
-    ['Gov Taxes/Permits', opex.gov]
+    ['Gov Taxes/Permits', opex.gov],
+    ['Mortgage Payment (P&I)', opex.mortgage || 0]
   ];
   
   let html = '';

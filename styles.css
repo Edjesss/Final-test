@@ -404,7 +404,7 @@ tr:hover {
 @media print {
   @page {
     size: A4 portrait;
-    margin: 10mm 12mm;
+    margin: 8mm 10mm;
   }
 
   body {
@@ -412,23 +412,23 @@ tr:hover {
     color: #000;
     padding: 0;
     margin: 0;
-    margin-top: 28mm;
-    font-size: 8pt;
-    line-height: 1.3;
+    margin-top: 24mm;
+    font-size: 7.5pt;
+    line-height: 1.25;
   }
 
   #printHeader {
     display: grid;
     grid-template-columns: 1fr auto;
-    gap: 1rem;
+    gap: 0.75rem;
     align-items: center;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    height: 24mm;
+    height: 20mm;
     background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-    padding: 4mm 6mm;
+    padding: 3mm 5mm;
     border-bottom: 0.5pt solid rgba(0,0,0,.15);
     z-index: 999;
   }
@@ -436,33 +436,34 @@ tr:hover {
   .print-left {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.4rem;
   }
 
   .print-right {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.4rem;
   }
 
   .realtor-info {
     display: flex;
     flex-direction: column;
-    gap: 0.15rem;
-    font-size: 7pt;
+    gap: 0.1rem;
+    font-size: 6.5pt;
   }
 
   #printBlueLogo, #printRealtorLogo {
-    max-height: 18mm;
-    max-width: 100px;
+    max-height: 15mm;
+    max-width: 80px;
   }
 
   .print-blue-text {
-    font-size: 12pt !important;
+    font-size: 11pt !important;
+    font-weight: 600;
   }
 
   .print-website-text {
-    font-size: 7pt !important;
+    font-size: 6.5pt !important;
   }
 
   .hero, .form-group, button, input, select, label, .screen-only {
@@ -474,49 +475,49 @@ tr:hover {
     box-shadow: none;
     border: none;
     page-break-inside: avoid;
-    margin-bottom: 0.5rem;
-    padding: 0.5rem 0;
+    margin-bottom: 0.4rem;
+    padding: 0.4rem 0;
   }
 
   h2 {
     color: #1fb6ff;
-    font-size: 11pt;
+    font-size: 10pt;
     font-weight: 600;
-    margin-bottom: 0.4rem;
-    margin-top: 0.3rem;
-    border-bottom: 1pt solid #e0e0e0;
-    padding-bottom: 0.2rem;
+    margin-bottom: 0.3rem;
+    margin-top: 0.25rem;
+    border-bottom: 0.75pt solid #e0e0e0;
+    padding-bottom: 0.15rem;
   }
 
   h3 {
-    font-size: 9pt;
+    font-size: 8.5pt;
     font-weight: 600;
-    margin: 0.3rem 0 0.2rem 0;
+    margin: 0.25rem 0 0.15rem 0;
   }
 
   p {
-    margin: 0.2rem 0;
-    font-size: 7.5pt;
+    margin: 0.15rem 0;
+    font-size: 7pt;
   }
 
   table {
-    font-size: 7pt;
+    font-size: 6.5pt;
     width: 100%;
     border-collapse: collapse;
-    margin: 0.3rem 0;
+    margin: 0.25rem 0;
   }
 
   th {
     background: #f5f5f5;
     color: #000;
     font-weight: 600;
-    padding: 0.15rem 0.3rem;
+    padding: 0.12rem 0.25rem;
     border: 0.5pt solid #ddd;
-    font-size: 7pt;
+    font-size: 6.5pt;
   }
 
   td {
-    padding: 0.15rem 0.3rem;
+    padding: 0.12rem 0.25rem;
     border: 0.5pt solid #e8e8e8;
   }
 
@@ -531,65 +532,66 @@ tr:hover {
 
   .badge {
     border: 0.5pt solid #1fb6ff;
-    padding: 0.1rem 0.3rem;
-    font-size: 7pt;
+    padding: 0.08rem 0.25rem;
+    font-size: 6.5pt;
     display: inline-block;
-    border-radius: 3px;
+    border-radius: 2px;
   }
 
   .kpi-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 0.3rem;
-    margin-bottom: 0.4rem;
+    gap: 0.25rem;
+    margin-bottom: 0.3rem;
   }
 
   .kpi-card {
     background: #f9f9f9;
-    padding: 0.3rem;
-    border-radius: 3px;
-    border-left: 2pt solid #1fb6ff;
+    padding: 0.25rem;
+    border-radius: 2px;
+    border-left: 1.5pt solid #1fb6ff;
   }
 
   .kpi-label {
-    font-size: 6.5pt;
+    font-size: 6pt;
     color: #666;
     text-transform: uppercase;
-    margin-bottom: 0.1rem;
+    margin-bottom: 0.08rem;
+    letter-spacing: 0.02em;
   }
 
   .kpi-value {
-    font-size: 9pt;
+    font-size: 8.5pt;
     font-weight: 700;
     color: #000;
   }
 
   .chart-container {
-    margin: 0.3rem 0;
-    max-height: 40mm;
+    margin: 0.25rem 0;
+    max-height: 35mm;
   }
 
   .chart-container svg {
-    max-height: 40mm;
+    max-height: 35mm;
   }
 
   .progress-bar {
-    height: 12px;
-    margin: 0.2rem 0;
+    height: 10px;
+    margin: 0.15rem 0;
   }
 
   .progress-fill {
-    font-size: 6pt;
+    font-size: 5.5pt;
   }
 
   /* Compact specific sections */
   .breakeven-section {
-    margin-top: 0.3rem;
+    margin-top: 0.25rem;
   }
 
   .breakeven-value {
-    font-size: 9pt;
-    margin: 0.2rem 0;
+    font-size: 8.5pt;
+    margin: 0.15rem 0;
   }
 
   /* Optimize table spacing */
@@ -601,36 +603,59 @@ tr:hover {
     text-align: center;
   }
 
-  /* Page break optimization */
-  .card:nth-of-type(1),
-  .card:nth-of-type(2) {
-    page-break-after: avoid;
-  }
-
   /* Hide conversion text to save space */
   #mConversion {
-    font-size: 6.5pt;
-    margin: 0.2rem 0;
+    font-size: 6pt;
+    margin: 0.15rem 0;
   }
 
-  /* Compact occupancy scenario table */
-  .card:has(h2:contains("Occupancy Scenario")) table {
+  /* Two-column layout for first section */
+  .card:nth-of-type(1),
+  .card:nth-of-type(2) {
+    display: inline-block;
+    width: 48%;
+    vertical-align: top;
+    margin-right: 1%;
+    page-break-inside: avoid;
+  }
+
+  .card:nth-of-type(2) {
+    margin-right: 0;
+  }
+
+  /* Compact specific tables */
+  .card table {
     font-size: 6.5pt;
   }
 
-  .card:has(h2:contains("Occupancy Scenario")) th,
-  .card:has(h2:contains("Occupancy Scenario")) td {
+  .card th,
+  .card td {
     padding: 0.1rem 0.2rem;
   }
 
-  /* Make 10-year projection more compact */
+  /* Force page breaks before major sections */
+  .card:has(h2:contains("10-Year")) {
+    page-break-before: always;
+  }
+
+  /* Optimize 10-year projection table */
   .card:last-of-type table {
-    font-size: 6.5pt;
+    font-size: 6pt;
   }
 
   .card:last-of-type th,
   .card:last-of-type td {
-    padding: 0.1rem 0.15rem;
+    padding: 0.08rem 0.12rem;
+  }
+
+  /* Make sensitivity chart more compact */
+  #sensitivityChart {
+    max-height: 30mm !important;
+  }
+
+  /* Compact OPEX chart */
+  #opexChart {
+    max-height: 35mm !important;
   }
 }
 
