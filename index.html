@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blue Aruba — Professional ROI Calculator</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- PRINT HEADER (print only) -->
+<div id="printHeader">
+  <div class="print-left">
+    <img id="printBlueLogo" src="" alt="Blue Aruba Rentals" class="print-logo-hidden">
+    <span id="printBlueLogoText" class="print-blue-text">Blue Aruba Rentals</span>
+    <span id="printBlueWebsite" class="print-website-text"></span>
+  </div>
+  <div class="print-right">
+    <img id="printRealtorLogo" src="" alt="Realtor Logo" class="print-logo-hidden">
+    <div class="realtor-info">
+      <div id="printRealtorName" class="print-realtor-name"></div>
+      <div id="printRealtorCompany" class="print-info-text"></div>
+      <div id="printRealtorLicense" class="print-info-text"></div>
+      <div id="printRealtorContact" class="print-info-text"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- HERO (screen only) -->
+<div class="hero screen-only">
+  <div class="hero-stat">
+    <div class="label">Est. Annual Revenue</div>
+    <div class="value" id="heroRev">$0</div>
+  </div>
+  <div class="hero-stat">
+    <div class="label">Net Owner Income</div>
+    <div class="value" id="heroNet">$0</div>
+  </div>
+  <div class="hero-stat">
+    <div class="label">Cap Rate</div>
+    <div class="value" id="heroCap">0%</div>
+  </div>
+  <div class="hero-stat">
+    <div class="label">Breakeven Occupancy</div>
+    <div class="value" id="heroBreak">0%</div>
+  </div>
+</div>
+
+<!-- PROPERTY DETAILS (screen only) -->
+<div class="card screen-only">
+  <h2>Property Details & Configuration</h2>
+  
+  <h3 class="section-spacing">Branding & Contact</h3>
+  <div class="form-grid">
+    <div class="form-group">
+      <label for="blueLogoFile">Blue Aruba Logo</label>
+      <input type="file" id="blueLogoFile" accept="image/*" aria-label="Upload Blue Aruba logo image">
+      <img id="blueLogoPreview" class="logo-preview" alt="Blue Aruba logo preview">
+      <button id="btnClearBlueLogo" class="btn-secondary btn-spacing" aria-label="Clear Blue Aruba logo">Clear Logo</button>
+    </div>
+    <div class="form-group">
+      <label for="realtorLogoFile">Realtor Logo</label>
+      <input type="file" id="realtorLogoFile" accept="image/*" aria-label="Upload realtor logo image">
+      <img id="realtorLogoPreview" class="logo-preview" alt="Realtor logo preview">
+      <button id="btnClearRealtorLogo" class="btn-secondary btn-spacing" aria-label="Clear realtor logo">Clear Logo</button>
+    </div>
+    <div class="form-group">
+      <label for="blueWebsite">Website</label>
+      <input type="text" id="blueWebsite" value="www.bluearuba.com" aria-label="Blue Aruba website URL">
+    </div>
+  </div>
+  
+  <div class="form-grid form-spacing">
+    <div class="form-group">
+      <label for="realtorName">Realtor Name</label>
+      <input type="text" id="realtorName" placeholder="Jane Doe" aria-label="Realtor name">
+    </div>
+    <div class="form-group">
+      <label for="realtorCompany">Company</label>
+      <input type="text" id="realtorCompany" placeholder="Aruba Realty Group" aria-label="Realtor company name">
+    </div>
+    <div class="form-group">
+      <label for="realtorLicense">License</label>
+      <input type="text" id="realtorLicense" placeholder="License #12345" aria-label="Realtor license number">
+    </div>
+    <div class="form-group">
+      <label for="realtorPhone">Phone</label>
+      <input type="text" id="realtorPhone" placeholder="+297 123 4567" aria-label="Realtor phone number">
+    </div>
+    <div class="form-group">
+      <label for="realtorEmail">Email</label>
+      <input type="email" id="realtorEmail" placeholder="jane@example.com" aria-label="Realtor email address">
+    </div>
+    <div class="form-group">
+      <label for="realtorWebsite">Realtor Website</label>
+      <input type="text" id="realtorWebsite" placeholder="www.realtor.com" aria-label="Realtor website URL">
+    </div>
+  </div>
+
+  <h3 class="section-spacing">Property & Financing</h3>
+  <div class="form-grid">
+    <div class="form-group">
+      <label for="currencyToggle">Currency</label>
+      <div class="currency-toggle" id="currencyToggle" role="group" aria-label="Currency selection">
+        <button data-currency="USD" class="active" aria-label="Select USD currency" aria-pressed="true">USD</button>
+        <button data-currency="AWG" aria-label="Select AWG currency" aria-pressed="false">AWG</button>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="priceInput">Listing/Purchase Price</label>
+      <input type="number" id="priceInput" value="650000" step="1000" aria-label="Property listing or purchase price">
+    </div>
+    <div class="form-group">
+      <label for="totalInvInput">Total Investment (leave blank = Price)</label>
+      <input type="number" id="totalInvInput" placeholder="Leave blank to use price" step="1000" aria-label="Total investment amount, optional">
+    </div>
+    <div class="form-group">
+      <label for="propType">Property Type</label>
+      <select id="propType" aria-label="Select property type">
+        <option value="Condo">Condo</option>
+        <option value="Villa">Villa</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="beds">Bedrooms</label>
+      <input type="number" id="beds" value="2" min="1" max="10" aria-label="Number of bedrooms">
+    </div>
+    <div class="form-group">
+      <label for="baths">Bathrooms</label>
+      <input type="number" id="baths" value="2" min="1" max="10" step="0.5" aria-label="Number of bathrooms">
+    </div>
+  </div>
+
+  <div class="form-grid form-spacing">
+    <div class="form-group">
+      <label for="financingMode">Financing Mode</label>
+      <select id="financingMode" aria-label="Select financing mode">
+        <option value="BANK">BANK</option>
+        <option value="CASH">CASH</option>
+      </select>
+    </div>
+    <div class="form-group" id="ltvGroup">
+      <label for="ltvPct">LTV %</label>
+      <input type="number" id="ltvPct" value="60" min="5" max="95" step="1" aria-label="Loan to value percentage">
+    </div>
+    <div class="form-group" id="downPctGroup">
+      <label for="downPct">Down Payment %</label>
+      <input type="number" id="downPct" value="40" min="5" max="95" step="1" aria-label="Down payment percentage">
+    </div>
+    <div class="form-group" id="rateGroup">
+      <label for="ratePct">Interest Rate %</label>
+      <input type="number" id="ratePct" value="8" min="0" max="20" step="0.1" aria-label="Interest rate percentage">
+    </div>
+    <div class="form-group" id="termGroup">
+      <label for="termYears">Term (Years)</label>
+      <input type="number" id="termYears" value="30" min="1" max="40" aria-label="Loan term in years">
+    </div>
+  </div>
+
+  <div class="form-grid form-spacing">
+    <div class="form-group">
+      <label for="downAmtView">Down Payment Amount</label>
+      <input type="text" id="downAmtView" readonly class="readonly-input" aria-label="Calculated down payment amount" aria-readonly="true">
+    </div>
+    <div class="form-group">
+      <label for="loanAmtView">Loan Amount</label>
+      <input type="text" id="loanAmtView" readonly class="readonly-input" aria-label="Calculated loan amount" aria-readonly="true">
+    </div>
+  </div>
+
+  <h3 class="section-spacing">Occupancy & Stay</h3>
+  <div class="form-grid">
+    <div class="form-group">
+      <label for="baseOcc">Base Occupancy %</label>
+      <input type="number" id="baseOcc" value="59.5" min="0" max="100" step="0.5" aria-label="Base occupancy percentage">
+    </div>
+    <div class="form-group">
+      <label for="avgLOS">Average Length of Stay (nights)</label>
+      <input type="number" id="avgLOS" value="5" min="1" max="30" aria-label="Average guest stay length in nights">
+    </div>
+  </div>
+
+  <h3 class="section-spacing">Rates & Seasons</h3>
+  <div class="form-grid">
+    <div class="form-group">
+      <label for="rateHigh">High Season Nightly Rate</label>
+      <input type="number" id="rateHigh" value="420" step="10" aria-label="Nightly rate for high season">
+    </div>
+    <div class="form-group">
+      <label for="rateMid">Mid Season Nightly Rate</label>
+      <input type="number" id="rateMid" value="320" step="10" aria-label="Nightly rate for mid season">
+    </div>
+    <div class="form-group">
+      <label for="rateLow">Low Season Nightly Rate</label>
+      <input type="number" id="rateLow" value="220" step="10" aria-label="Nightly rate for low season">
+    </div>
+    <div class="form-group">
+      <label for="holidayPrem">Holiday Premium %</label>
+      <input type="number" id="holidayPrem" value="30" min="0" max="100" step="5" aria-label="Holiday premium percentage">
+    </div>
+  </div>
+
+  <div class="form-grid form-spacing">
+    <div class="form-group">
+      <label for="wHigh">High Season Weeks</label>
+      <input type="number" id="wHigh" value="16" min="0" max="52" aria-label="Number of high season weeks">
+    </div>
+    <div class="form-group">
+      <label for="wMid">Mid Season Weeks</label>
+      <input type="number" id="wMid" value="20" min="0" max="52" aria-label="Number of mid season weeks">
+    </div>
+    <div class="form-group">
+      <label for="wLow">Low Season Weeks</label>
+      <input type="number" id="wLow" value="16" min="0" max="52" aria-label="Number of low season weeks">
+    </div>
+    <div class="form-group">
+      <label for="wHoliday">Holiday Weeks (subset of High)</label>
+      <input type="number" id="wHoliday" value="2" min="0" max="52" aria-label="Number of holiday weeks">
+    </div>
+  </div>
+
+  <h3 class="section-spacing">Fees & HOA</h3>
+  <div class="form-grid">
+    <div class="form-group">
+      <label for="otaPct">OTA Fee %</label>
+      <input type="number" id="otaPct" value="12" min="0" max="30" step="1" aria-label="Online travel agency fee percentage">
+    </div>
+    <div class="form-group">
+      <label for="mgmtPct">Management Fee % (fixed)</label>
+      <input type="number" id="mgmtPct" value="20" disabled aria-label="Management fee percentage, fixed at 20%">
+    </div>
+    <div class="form-group">
+      <label for="hoaMonthly">HOA (Monthly)</label>
+      <input type="number" id="hoaMonthly" value="420" step="10" aria-label="Homeowners association monthly fee">
+    </div>
+  </div>
+
+  <h3 class="section-spacing">OPEX Overrides (Monthly, 0 = Auto)</h3>
+  <div class="form-grid">
+    <div class="form-group">
+      <label for="opxMaint">Maintenance</label>
+      <input type="number" id="opxMaint" value="0" min="0" step="10" aria-label="Monthly maintenance costs, 0 for automatic calculation">
+    </div>
+    <div class="form-group">
+      <label for="opxClean">Cleaning (per stay)</label>
+      <input type="number" id="opxClean" value="0" min="0" step="5" aria-label="Cleaning cost per stay, 0 for automatic calculation">
+    </div>
+    <div class="form-group">
+      <label for="opxElec">Electricity</label>
+      <input type="number" id="opxElec" value="0" min="0" step="10" aria-label="Monthly electricity costs, 0 for automatic calculation">
+    </div>
+    <div class="form-group">
+      <label for="opxWater">Water</label>
+      <input type="number" id="opxWater" value="0" min="0" step="5" aria-label="Monthly water costs, 0 for automatic calculation">
+    </div>
+    <div class="form-group">
+      <label for="opxNet">Internet/Cable</label>
+      <input type="number" id="opxNet" value="0" min="0" step="5" aria-label="Monthly internet and cable costs, 0 for automatic calculation">
+    </div>
+    <div class="form-group">
+      <label for="opxIns">Insurance</label>
+      <input type="number" id="opxIns" value="0" min="0" step="10" aria-label="Monthly insurance costs, 0 for automatic calculation">
+    </div>
+    <div class="form-group">
+      <label for="opxRes">Repairs Reserve</label>
+      <input type="number" id="opxRes" value="0" min="0" step="10" aria-label="Monthly repairs reserve, 0 for automatic calculation">
+    </div>
+    <div class="form-group">
+      <label for="opxGov">Gov Taxes/Permits</label>
+      <input type="number" id="opxGov" value="0" min="0" step="10" aria-label="Monthly government taxes and permits, 0 for automatic calculation">
+    </div>
+  </div>
+
+  <div class="actions section-spacing">
+    <button id="btnCalc" aria-label="Calculate ROI and update report">🧮 Calculate ROI</button>
+    <button id="btnPrint" class="btn-secondary" aria-label="Print report to PDF">🖨️ Print Report</button>
+    <button id="btnReset" class="btn-danger" aria-label="Reset all fields to default values">🔄 Reset</button>
+  </div>
+</div>
+
+<!-- MORTGAGE & CLOSING -->
+<div class="card">
+  <h2>Mortgage & Closing Costs</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th class="text-right">Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Listing Price</td>
+        <td class="text-right" id="mOutPrice">$0</td>
+      </tr>
+      <tr>
+        <td>Down Payment</td>
+        <td class="text-right" id="mOutDown">$0</td>
+      </tr>
+      <tr id="rowLoan">
+        <td>Loan Amount</td>
+        <td class="text-right" id="mOutLoan">$0</td>
+      </tr>
+      <tr>
+        <td>Transfer Tax (3% first Afl 250k + 6% above)</td>
+        <td class="text-right" id="mOutTax">$0</td>
+      </tr>
+      <tr>
+        <td>Notary (Transfer) ~1%</td>
+        <td class="text-right" id="mOutNotary">$0</td>
+      </tr>
+      <tr id="rowBankFee">
+        <td>Bank Closing Fee ~1%</td>
+        <td class="text-right" id="mOutBankFee">$0</td>
+      </tr>
+      <tr id="rowMortNotary">
+        <td>Notary (Mortgage) ~1%</td>
+        <td class="text-right" id="mOutMortNotary">$0</td>
+      </tr>
+      <tr class="bold">
+        <td>Total Cash at Closing</td>
+        <td class="text-right" id="mOutTotal">$0</td>
+      </tr>
+      <tr id="rowPmt">
+        <td>Monthly P&I Payment</td>
+        <td class="text-right" id="mOutPmt">$0</td>
+      </tr>
+      <tr id="rowAllIn">
+        <td>All-in Cost (Price + Closing)</td>
+        <td class="text-right" id="mOutAllIn">$0</td>
+      </tr>
+    </tbody>
+  </table>
+  <p id="mConversion" class="conversion-text"></p>
+</div>
+
+<!-- KPIS -->
+<div class="card">
+  <h2>Key Performance Indicators (Base Case)</h2>
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-label">Total Revenue</div>
+      <div class="kpi-value" id="kpiTotalRev">$0</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Net After OTA</div>
+      <div class="kpi-value" id="kpiNetOTA">$0</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Owner Gross (Pre-OPEX)</div>
+      <div class="kpi-value" id="kpiOwnerGross">$0</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Total OPEX</div>
+      <div class="kpi-value" id="kpiTotalOPEX">$0</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Owner Net Income</div>
+      <div class="kpi-value" id="kpiOwnerNet">$0</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Cap Rate / ROI</div>
+      <div class="kpi-value" id="kpiCapRate">0%</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">ADR (Net)</div>
+      <div class="kpi-value" id="kpiADR">$0</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">RevPAR (Net)</div>
+      <div class="kpi-value" id="kpiRevPAR">$0</div>
+    </div>
+  </div>
+  <div class="breakeven-section">
+    <h3>Breakeven Occupancy</h3>
+    <p class="breakeven-value"><span class="badge badge-warning" id="breakeven">0%</span></p>
+    <div class="progress-bar">
+      <div class="progress-fill" id="breakevenBar">0%</div>
+    </div>
+  </div>
+</div>
+
+<!-- REVENUE BREAKDOWN -->
+<div class="card">
+  <h2>Revenue Breakdown (Base Case)</h2>
+  <p><span class="badge" id="occBadge">0% Occupancy</span></p>
+  <div class="chart-container" id="revenueChart"></div>
+  <table>
+    <thead>
+      <tr>
+        <th>Season</th>
+        <th class="text-right">Nights Sold</th>
+        <th class="text-right">Revenue</th>
+      </tr>
+    </thead>
+    <tbody id="revenueTableBody"></tbody>
+  </table>
+</div>
+
+<!-- OPEX DISTRIBUTION -->
+<div class="card">
+  <h2>OPEX Distribution</h2>
+  <div class="chart-container" id="opexChart"></div>
+</div>
+
+<!-- CASH FLOW WATERFALL -->
+<div class="card">
+  <h2>Cash Flow Waterfall (Base Case)</h2>
+  <div class="chart-container" id="waterfallChart"></div>
+  <table class="table-spacing">
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th class="text-right">Amount</th>
+      </tr>
+    </thead>
+    <tbody id="waterfallTableBody"></tbody>
+  </table>
+</div>
+
+<!-- OCCUPANCY SCENARIO ANALYSIS -->
+<div class="card">
+  <h2>Occupancy Scenario Analysis</h2>
+  <div class="overflow-scroll">
+    <table id="scenarioTable">
+      <thead>
+        <tr>
+          <th>Occupancy</th>
+          <th class="text-right">Room Revenue</th>
+          <th class="text-right">Net After OTA</th>
+          <th class="text-right">Owner Gross</th>
+          <th class="text-right">Total OPEX</th>
+          <th class="text-right">Owner Net</th>
+          <th class="text-right">ROI</th>
+          <th class="text-right">Cap Rate</th>
+        </tr>
+      </thead>
+      <tbody id="scenarioTableBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- SENSITIVITY TORNADO -->
+<div class="card">
+  <h2>Sensitivity Analysis (Tornado Chart)</h2>
+  <p class="small-text">Impact of ±20% change on Owner Net Income</p>
+  <div class="chart-container" id="sensitivityChart"></div>
+</div>
+
+<!-- DETAILED OPEX -->
+<div class="card">
+  <h2>Detailed OPEX Breakdown</h2>
+  <table id="opexDetailTable">
+    <thead>
+      <tr>
+        <th>Category</th>
+        <th class="text-right">Monthly</th>
+        <th class="text-right">Annual</th>
+        <th class="text-right">% of Total</th>
+      </tr>
+    </thead>
+    <tbody id="opexDetailTableBody"></tbody>
+    <tfoot>
+      <tr class="bold">
+        <td>TOTAL</td>
+        <td class="text-right" id="opexTotalMonthly">$0</td>
+        <td class="text-right" id="opexTotalAnnual">$0</td>
+        <td class="text-right">100%</td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+
+<!-- 10-YEAR PROJECTION -->
+<div class="card">
+  <h2>10-Year Cash Flow Projection</h2>
+  <div class="form-group screen-only appreciation-input">
+    <label for="appreciation">Annual Appreciation %</label>
+    <input type="number" id="appreciation" value="3" min="0" max="20" step="0.5" aria-label="Annual property appreciation percentage">
+    <p class="badge-spacing"><span class="badge" id="appreciation-badge">3% Annual Growth</span></p>
+  </div>
+  <p class="small-text">
+    Base occupancy: 60% • OPEX inflation: 2.5%/yr • Rates appreciate with property value
+  </p>
+  <div class="kpi-grid kpi-spacing">
+    <div class="kpi-card">
+      <div class="kpi-label">Total Net Income (10Y)</div>
+      <div class="kpi-value" id="summary10Net">$0</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Property Value Y10</div>
+      <div class="kpi-value" id="summary10Value">$0</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Total ROI (10Y)</div>
+      <div class="kpi-value" id="summary10ROI">0%</div>
+    </div>
+  </div>
+  <div class="chart-container" id="yearChart"></div>
+  <div class="overflow-scroll">
+    <table id="yearTable">
+      <thead id="yearTableHead"></thead>
+      <tbody id="yearTableBody"></tbody>
+    </table>
+  </div>
+</div>
+
+</div>
+
+<script src="app.js"></script>
+
+</body>
+</html>
