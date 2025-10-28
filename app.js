@@ -1,6 +1,45 @@
-// ===== STATE =====
-const AWG_PER_USD = 1.79;
+/**
+ * Blue Aruba ROI Calculator
+ * Professional tool for calculating return on investment for rental properties
+ */
 
+// ===== CONSTANTS =====
+const AWG_PER_USD = 1.79;
+const MANAGEMENT_FEE_PCT = 20; // Fixed management fee percentage
+const TOTAL_WEEKS_PER_YEAR = 52;
+const DAYS_PER_WEEK = 7;
+const DAYS_PER_YEAR = 365;
+const MONTHS_PER_YEAR = 12;
+
+// Default OPEX values (annual in USD)
+const DEFAULTS = {
+  VILLA_MAINTENANCE: 2800,
+  CONDO_MAINTENANCE: 1800,
+  VILLA_ELECTRICITY_MONTHLY: 650,
+  CONDO_ELECTRICITY_MONTHLY: 400,
+  VILLA_WATER_MONTHLY: 120,
+  CONDO_WATER_MONTHLY: 70,
+  INTERNET_MONTHLY: 85,
+  VILLA_INSURANCE_MONTHLY: 200,
+  CONDO_INSURANCE_MONTHLY: 100,
+  VILLA_CLEANING: 150,
+  CONDO_CLEANING: 85,
+  GOV_TAXES_ANNUAL: 1000,
+  PROPERTY_RESERVE_RATE: 0.005, // 0.5% of property value
+  VILLA_SIZE_MULTIPLIER: 1.25,
+  CONDO_SIZE_MULTIPLIER: 1.0,
+  OPEX_INFLATION: 0.025, // 2.5% annual
+  UTILITY_MULTIPLIER: 0.9
+};
+
+// Transfer tax rates (Aruba specific)
+const TRANSFER_TAX = {
+  FIRST_TIER_LIMIT: 250000, // AWG
+  FIRST_TIER_RATE: 0.03,    // 3%
+  SECOND_TIER_RATE: 0.06    // 6%
+};
+
+// ===== STATE =====
 const STATE = {
   // Currency
   currency: 'USD',
@@ -30,7 +69,7 @@ const STATE = {
   
   // Fees
   otaPct: 12,
-  mgmtPct: 20,
+  mgmtPct: MANAGEMENT_FEE_PCT,
   hoaMonthly: 420,
   
   // OPEX overrides (monthly, 0=auto)
@@ -62,236 +101,478 @@ const STATE = {
   realtorWebsite: ''
 };
 
+// ===== DOM ELEMENT CACHE =====
+const DOM = {};
+
+/**
+ * Cache frequently accessed DOM elements for better performance
+ */
+function cacheDOMElements() {
+  // Hero stats
+  DOM.heroRev = document.getElementById('heroRev');
+  DOM.heroNet = document.getElementById('heroNet');
+  DOM.heroCap = document.getElementById('heroCap');
+  DOM.heroBreak = document.getElementById('heroBreak');
+  
+  // Currency toggle
+  DOM.currencyToggle = document.getElementById('currencyToggle');
+  
+  // Input elements
+  DOM.priceInput = document.getElementById('priceInput');
+  DOM.totalInvInput = document.getElementById('totalInvInput');
+  DOM.propType = document.getElementById('propType');
+  DOM.beds = document.getElementById('beds');
+  DOM.baths = document.getElementById('baths');
+  
+  // Financing
+  DOM.financingMode = document.getElementById('financingMode');
+  DOM.ltvPct = document.getElementById('ltvPct');
+  DOM.downPct = document.getElementById('downPct');
+  DOM.ratePct = document.getElementById('ratePct');
+  DOM.termYears = document.getElementById('termYears');
+  DOM.downAmtView = document.getElementById('downAmtView');
+  DOM.loanAmtView = document.getElementById('loanAmtView');
+  
+  // Display groups
+  DOM.ltvGroup = document.getElementById('ltvGroup');
+  DOM.downPctGroup = document.getElementById('downPctGroup');
+  DOM.rateGroup = document.getElementById('rateGroup');
+  DOM.termGroup = document.getElementById('termGroup');
+  
+  // Occupancy
+  DOM.baseOcc = document.getElementById('baseOcc');
+  DOM.avgLOS = document.getElementById('avgLOS');
+  
+  // Rates
+  DOM.rateHigh = document.getElementById('rateHigh');
+  DOM.rateMid = document.getElementById('rateMid');
+  DOM.rateLow = document.getElementById('rateLow');
+  DOM.holidayPrem = document.getElementById('holidayPrem');
+  
+  // Seasons
+  DOM.wHigh = document.getElementById('wHigh');
+  DOM.wMid = document.getElementById('wMid');
+  DOM.wLow = document.getElementById('wLow');
+  DOM.wHoliday = document.getElementById('wHoliday');
+  
+  // Fees
+  DOM.otaPct = document.getElementById('otaPct');
+  DOM.hoaMonthly = document.getElementById('hoaMonthly');
+  
+  // OPEX
+  DOM.opxMaint = document.getElementById('opxMaint');
+  DOM.opxClean = document.getElementById('opxClean');
+  DOM.opxElec = document.getElementById('opxElec');
+  DOM.opxWater = document.getElementById('opxWater');
+  DOM.opxNet = document.getElementById('opxNet');
+  DOM.opxIns = document.getElementById('opxIns');
+  DOM.opxRes = document.getElementById('opxRes');
+  DOM.opxGov = document.getElementById('opxGov');
+  
+  // Branding
+  DOM.blueWebsite = document.getElementById('blueWebsite');
+  DOM.realtorName = document.getElementById('realtorName');
+  DOM.realtorCompany = document.getElementById('realtorCompany');
+  DOM.realtorLicense = document.getElementById('realtorLicense');
+  DOM.realtorPhone = document.getElementById('realtorPhone');
+  DOM.realtorEmail = document.getElementById('realtorEmail');
+  DOM.realtorWebsite = document.getElementById('realtorWebsite');
+  
+  // Logo handling
+  DOM.blueLogoFile = document.getElementById('blueLogoFile');
+  DOM.realtorLogoFile = document.getElementById('realtorLogoFile');
+  DOM.blueLogoPreview = document.getElementById('blueLogoPreview');
+  DOM.realtorLogoPreview = document.getElementById('realtorLogoPreview');
+  DOM.btnClearBlueLogo = document.getElementById('btnClearBlueLogo');
+  DOM.btnClearRealtorLogo = document.getElementById('btnClearRealtorLogo');
+  
+  // Buttons
+  DOM.btnCalc = document.getElementById('btnCalc');
+  DOM.btnPrint = document.getElementById('btnPrint');
+  DOM.btnReset = document.getElementById('btnReset');
+  
+  // Appreciation
+  DOM.appreciation = document.getElementById('appreciation');
+  DOM.appreciationBadge = document.getElementById('appreciation-badge');
+}
+
+// ===== UTILITY FUNCTIONS =====
+
+/**
+ * Safely parse a float value with fallback
+ * @param {string|number} value - Value to parse
+ * @param {number} defaultValue - Default value if parsing fails
+ * @returns {number} Parsed value or default
+ */
+function safeParseFloat(value, defaultValue = 0) {
+  const parsed = parseFloat(value);
+  return isNaN(parsed) ? defaultValue : parsed;
+}
+
+/**
+ * Clamp a number between min and max values
+ * @param {number} value - Value to clamp
+ * @param {number} min - Minimum value
+ * @param {number} max - Maximum value
+ * @returns {number} Clamped value
+ */
+function clamp(value, min, max) {
+  return Math.max(min, Math.min(max, value));
+}
+
 // ===== FORMATTERS =====
 const fmt = {
+  /**
+   * Format a number as currency
+   * @param {number} val - Value to format
+   * @param {string} currency - Currency code (USD or AWG)
+   * @returns {string} Formatted currency string
+   */
   money: (val, currency) => {
     const sym = currency === 'AWG' ? 'Afl ' : '$';
     return sym + Math.round(val).toLocaleString();
   },
+  
+  /**
+   * Format a number as percentage
+   * @param {number} val - Value to format
+   * @param {number} decimals - Number of decimal places
+   * @returns {string} Formatted percentage string
+   */
   pct: (val, decimals = 1) => val.toFixed(decimals) + '%',
+  
+  /**
+   * Format a number
+   * @param {number} val - Value to format
+   * @param {number} decimals - Number of decimal places
+   * @returns {string} Formatted number string
+   */
   num: (val, decimals = 0) => val.toFixed(decimals)
 };
 
+/**
+ * Convert USD value to specified currency
+ * @param {number} usdVal - Value in USD
+ * @param {string} currency - Target currency
+ * @returns {number} Converted value
+ */
 function toCur(usdVal, currency) {
   return currency === 'AWG' ? usdVal * AWG_PER_USD : usdVal;
 }
 
+/**
+ * Convert value from specified currency to USD
+ * @param {number} val - Value in currency
+ * @param {string} currency - Source currency
+ * @returns {number} Value in USD
+ */
 function fromCur(val, currency) {
   return currency === 'AWG' ? val / AWG_PER_USD : val;
 }
 
-// ===== BINDINGS =====
+// ===== EVENT BINDINGS =====
+
+/**
+ * Bind all input event listeners
+ * Uses cached DOM elements and validates all inputs
+ */
 function bindInputs() {
-  // Currency toggle
-  document.querySelectorAll('#currencyToggle button').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const newCur = btn.dataset.currency;
-      if (newCur === STATE.currency) return;
-      
-      // Convert all monetary values
-      const ratio = newCur === 'AWG' ? AWG_PER_USD : 1/AWG_PER_USD;
-      STATE.price *= ratio;
-      if (STATE.totalInv) STATE.totalInv *= ratio;
-      STATE.rateHigh *= ratio;
-      STATE.rateMid *= ratio;
-      STATE.rateLow *= ratio;
-      STATE.hoaMonthly *= ratio;
-      
-      // OPEX overrides
-      if (STATE.opxMaint > 0) STATE.opxMaint *= ratio;
-      if (STATE.opxClean > 0) STATE.opxClean *= ratio;
-      if (STATE.opxElec > 0) STATE.opxElec *= ratio;
-      if (STATE.opxWater > 0) STATE.opxWater *= ratio;
-      if (STATE.opxNet > 0) STATE.opxNet *= ratio;
-      if (STATE.opxIns > 0) STATE.opxIns *= ratio;
-      if (STATE.opxRes > 0) STATE.opxRes *= ratio;
-      if (STATE.opxGov > 0) STATE.opxGov *= ratio;
-      
-      STATE.currency = newCur;
-      syncInputsToState();
-      document.querySelectorAll('#currencyToggle button').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      calculate();
+  // Currency toggle - use event delegation
+  DOM.currencyToggle.addEventListener('click', (e) => {
+    const btn = e.target.closest('button');
+    if (!btn) return;
+    
+    const newCur = btn.dataset.currency;
+    if (newCur === STATE.currency) return;
+    
+    // Update aria-pressed attributes
+    DOM.currencyToggle.querySelectorAll('button').forEach(b => {
+      b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+      b.classList.toggle('active', b === btn);
     });
+    
+    // Convert all monetary values
+    const ratio = newCur === 'AWG' ? AWG_PER_USD : 1 / AWG_PER_USD;
+    STATE.price *= ratio;
+    if (STATE.totalInv) STATE.totalInv *= ratio;
+    STATE.rateHigh *= ratio;
+    STATE.rateMid *= ratio;
+    STATE.rateLow *= ratio;
+    STATE.hoaMonthly *= ratio;
+    
+    // OPEX overrides
+    if (STATE.opxMaint > 0) STATE.opxMaint *= ratio;
+    if (STATE.opxClean > 0) STATE.opxClean *= ratio;
+    if (STATE.opxElec > 0) STATE.opxElec *= ratio;
+    if (STATE.opxWater > 0) STATE.opxWater *= ratio;
+    if (STATE.opxNet > 0) STATE.opxNet *= ratio;
+    if (STATE.opxIns > 0) STATE.opxIns *= ratio;
+    if (STATE.opxRes > 0) STATE.opxRes *= ratio;
+    if (STATE.opxGov > 0) STATE.opxGov *= ratio;
+    
+    STATE.currency = newCur;
+    syncInputsToState();
+    calculate();
   });
   
-  // Property inputs
-  document.getElementById('priceInput').addEventListener('input', e => {
-    STATE.price = parseFloat(e.target.value) || 0;
+  // Property inputs with validation
+  DOM.priceInput.addEventListener('input', e => {
+    STATE.price = safeParseFloat(e.target.value, 0);
     updateDerivedAmounts();
   });
-  document.getElementById('totalInvInput').addEventListener('input', e => {
-    STATE.totalInv = e.target.value ? parseFloat(e.target.value) : null;
+  
+  DOM.totalInvInput.addEventListener('input', e => {
+    STATE.totalInv = e.target.value ? safeParseFloat(e.target.value, null) : null;
   });
-  document.getElementById('propType').addEventListener('change', e => STATE.propType = e.target.value);
-  document.getElementById('beds').addEventListener('input', e => STATE.beds = parseFloat(e.target.value) || 2);
-  document.getElementById('baths').addEventListener('input', e => STATE.baths = parseFloat(e.target.value) || 2);
+  
+  DOM.propType.addEventListener('change', e => {
+    STATE.propType = e.target.value;
+  });
+  
+  DOM.beds.addEventListener('input', e => {
+    STATE.beds = safeParseFloat(e.target.value, 2);
+  });
+  
+  DOM.baths.addEventListener('input', e => {
+    STATE.baths = safeParseFloat(e.target.value, 2);
+  });
   
   // Financing
-  document.getElementById('financingMode').addEventListener('change', e => {
+  DOM.financingMode.addEventListener('change', e => {
     STATE.financingMode = e.target.value;
     updateFinancingUI();
     updateDerivedAmounts();
   });
-  document.getElementById('ltvPct').addEventListener('input', e => {
-    let ltv = parseFloat(e.target.value) || 60;
-    ltv = Math.max(5, Math.min(95, ltv));
+  
+  DOM.ltvPct.addEventListener('input', e => {
+    let ltv = safeParseFloat(e.target.value, 60);
+    ltv = clamp(ltv, 5, 95);
     STATE.ltvPct = ltv;
     STATE.downPct = 100 - ltv;
-    document.getElementById('ltvPct').value = ltv;
-    document.getElementById('downPct').value = STATE.downPct;
+    DOM.ltvPct.value = ltv;
+    DOM.downPct.value = STATE.downPct;
     updateDerivedAmounts();
   });
-  document.getElementById('downPct').addEventListener('input', e => {
-    let down = parseFloat(e.target.value) || 40;
-    down = Math.max(5, Math.min(95, down));
+  
+  DOM.downPct.addEventListener('input', e => {
+    let down = safeParseFloat(e.target.value, 40);
+    down = clamp(down, 5, 95);
     STATE.downPct = down;
     STATE.ltvPct = 100 - down;
-    document.getElementById('downPct').value = down;
-    document.getElementById('ltvPct').value = STATE.ltvPct;
+    DOM.downPct.value = down;
+    DOM.ltvPct.value = STATE.ltvPct;
     updateDerivedAmounts();
   });
-  document.getElementById('ratePct').addEventListener('input', e => STATE.ratePct = parseFloat(e.target.value) || 8);
-  document.getElementById('termYears').addEventListener('input', e => STATE.termYears = parseFloat(e.target.value) || 30);
+  
+  DOM.ratePct.addEventListener('input', e => {
+    STATE.ratePct = safeParseFloat(e.target.value, 8);
+  });
+  
+  DOM.termYears.addEventListener('input', e => {
+    STATE.termYears = safeParseFloat(e.target.value, 30);
+  });
   
   // Occupancy
-  document.getElementById('baseOcc').addEventListener('input', e => STATE.baseOcc = parseFloat(e.target.value) || 59.5);
-  document.getElementById('avgLOS').addEventListener('input', e => STATE.avgLOS = parseFloat(e.target.value) || 5);
+  DOM.baseOcc.addEventListener('input', e => {
+    STATE.baseOcc = safeParseFloat(e.target.value, 59.5);
+  });
+  
+  DOM.avgLOS.addEventListener('input', e => {
+    STATE.avgLOS = safeParseFloat(e.target.value, 5);
+  });
   
   // Rates
-  document.getElementById('rateHigh').addEventListener('input', e => STATE.rateHigh = parseFloat(e.target.value) || 420);
-  document.getElementById('rateMid').addEventListener('input', e => STATE.rateMid = parseFloat(e.target.value) || 320);
-  document.getElementById('rateLow').addEventListener('input', e => STATE.rateLow = parseFloat(e.target.value) || 220);
-  document.getElementById('holidayPrem').addEventListener('input', e => STATE.holidayPrem = parseFloat(e.target.value) || 30);
+  DOM.rateHigh.addEventListener('input', e => {
+    STATE.rateHigh = safeParseFloat(e.target.value, 420);
+  });
+  
+  DOM.rateMid.addEventListener('input', e => {
+    STATE.rateMid = safeParseFloat(e.target.value, 320);
+  });
+  
+  DOM.rateLow.addEventListener('input', e => {
+    STATE.rateLow = safeParseFloat(e.target.value, 220);
+  });
+  
+  DOM.holidayPrem.addEventListener('input', e => {
+    STATE.holidayPrem = safeParseFloat(e.target.value, 30);
+  });
   
   // Seasons - auto-normalize
-  ['wHigh','wMid','wLow','wHoliday'].forEach(key => {
-    document.getElementById(key).addEventListener('input', e => {
-      STATE[key] = parseFloat(e.target.value) || 0;
+  [DOM.wHigh, DOM.wMid, DOM.wLow, DOM.wHoliday].forEach((input, idx) => {
+    const keys = ['wHigh', 'wMid', 'wLow', 'wHoliday'];
+    input.addEventListener('input', e => {
+      STATE[keys[idx]] = safeParseFloat(e.target.value, 0);
       normalizeWeeks();
     });
   });
   
   // Fees
-  document.getElementById('otaPct').addEventListener('input', e => STATE.otaPct = parseFloat(e.target.value) || 12);
-  document.getElementById('hoaMonthly').addEventListener('input', e => STATE.hoaMonthly = parseFloat(e.target.value) || 420);
+  DOM.otaPct.addEventListener('input', e => {
+    STATE.otaPct = safeParseFloat(e.target.value, 12);
+  });
+  
+  DOM.hoaMonthly.addEventListener('input', e => {
+    STATE.hoaMonthly = safeParseFloat(e.target.value, 420);
+  });
   
   // OPEX overrides
-  document.getElementById('opxMaint').addEventListener('input', e => STATE.opxMaint = parseFloat(e.target.value) || 0);
-  document.getElementById('opxClean').addEventListener('input', e => STATE.opxClean = parseFloat(e.target.value) || 0);
-  document.getElementById('opxElec').addEventListener('input', e => STATE.opxElec = parseFloat(e.target.value) || 0);
-  document.getElementById('opxWater').addEventListener('input', e => STATE.opxWater = parseFloat(e.target.value) || 0);
-  document.getElementById('opxNet').addEventListener('input', e => STATE.opxNet = parseFloat(e.target.value) || 0);
-  document.getElementById('opxIns').addEventListener('input', e => STATE.opxIns = parseFloat(e.target.value) || 0);
-  document.getElementById('opxRes').addEventListener('input', e => STATE.opxRes = parseFloat(e.target.value) || 0);
-  document.getElementById('opxGov').addEventListener('input', e => STATE.opxGov = parseFloat(e.target.value) || 0);
+  DOM.opxMaint.addEventListener('input', e => {
+    STATE.opxMaint = safeParseFloat(e.target.value, 0);
+  });
+  
+  DOM.opxClean.addEventListener('input', e => {
+    STATE.opxClean = safeParseFloat(e.target.value, 0);
+  });
+  
+  DOM.opxElec.addEventListener('input', e => {
+    STATE.opxElec = safeParseFloat(e.target.value, 0);
+  });
+  
+  DOM.opxWater.addEventListener('input', e => {
+    STATE.opxWater = safeParseFloat(e.target.value, 0);
+  });
+  
+  DOM.opxNet.addEventListener('input', e => {
+    STATE.opxNet = safeParseFloat(e.target.value, 0);
+  });
+  
+  DOM.opxIns.addEventListener('input', e => {
+    STATE.opxIns = safeParseFloat(e.target.value, 0);
+  });
+  
+  DOM.opxRes.addEventListener('input', e => {
+    STATE.opxRes = safeParseFloat(e.target.value, 0);
+  });
+  
+  DOM.opxGov.addEventListener('input', e => {
+    STATE.opxGov = safeParseFloat(e.target.value, 0);
+  });
   
   // Branding
-  document.getElementById('blueWebsite').addEventListener('input', e => {
+  DOM.blueWebsite.addEventListener('input', e => {
     STATE.blueWebsite = e.target.value;
     syncBrandingToPrint();
   });
-  ['realtorName','realtorCompany','realtorLicense','realtorPhone','realtorEmail','realtorWebsite'].forEach(key => {
-    document.getElementById(key).addEventListener('input', e => {
+  
+  const brandingFields = [
+    { dom: DOM.realtorName, key: 'realtorName' },
+    { dom: DOM.realtorCompany, key: 'realtorCompany' },
+    { dom: DOM.realtorLicense, key: 'realtorLicense' },
+    { dom: DOM.realtorPhone, key: 'realtorPhone' },
+    { dom: DOM.realtorEmail, key: 'realtorEmail' },
+    { dom: DOM.realtorWebsite, key: 'realtorWebsite' }
+  ];
+  
+  brandingFields.forEach(({ dom, key }) => {
+    dom.addEventListener('input', e => {
       STATE[key] = e.target.value;
       syncBrandingToPrint();
     });
   });
   
   // Logo uploads
-  document.getElementById('blueLogoFile').addEventListener('change', e => {
+  DOM.blueLogoFile.addEventListener('change', e => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = ev => {
         STATE.blueLogoData = ev.target.result;
-        document.getElementById('blueLogoPreview').src = STATE.blueLogoData;
-        document.getElementById('blueLogoPreview').classList.add('active');
+        DOM.blueLogoPreview.src = STATE.blueLogoData;
+        DOM.blueLogoPreview.classList.add('active');
         syncBrandingToPrint();
       };
       reader.readAsDataURL(file);
     }
   });
-  document.getElementById('realtorLogoFile').addEventListener('change', e => {
+  
+  DOM.realtorLogoFile.addEventListener('change', e => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = ev => {
         STATE.realtorLogoData = ev.target.result;
-        document.getElementById('realtorLogoPreview').src = STATE.realtorLogoData;
-        document.getElementById('realtorLogoPreview').classList.add('active');
+        DOM.realtorLogoPreview.src = STATE.realtorLogoData;
+        DOM.realtorLogoPreview.classList.add('active');
         syncBrandingToPrint();
       };
       reader.readAsDataURL(file);
     }
   });
   
-  document.getElementById('btnClearBlueLogo').addEventListener('click', () => {
+  DOM.btnClearBlueLogo.addEventListener('click', () => {
     STATE.blueLogoData = null;
-    document.getElementById('blueLogoFile').value = '';
-    document.getElementById('blueLogoPreview').classList.remove('active');
+    DOM.blueLogoFile.value = '';
+    DOM.blueLogoPreview.classList.remove('active');
     syncBrandingToPrint();
   });
-  document.getElementById('btnClearRealtorLogo').addEventListener('click', () => {
+  
+  DOM.btnClearRealtorLogo.addEventListener('click', () => {
     STATE.realtorLogoData = null;
-    document.getElementById('realtorLogoFile').value = '';
-    document.getElementById('realtorLogoPreview').classList.remove('active');
+    DOM.realtorLogoFile.value = '';
+    DOM.realtorLogoPreview.classList.remove('active');
     syncBrandingToPrint();
   });
   
   // Actions
-  document.getElementById('btnCalc').addEventListener('click', calculate);
-  document.getElementById('btnPrint').addEventListener('click', () => window.print());
-  document.getElementById('btnReset').addEventListener('click', reset);
+  DOM.btnCalc.addEventListener('click', calculate);
+  DOM.btnPrint.addEventListener('click', () => window.print());
+  DOM.btnReset.addEventListener('click', reset);
   
   // 10Y appreciation
-  document.getElementById('appreciation').addEventListener('input', e => {
-    const val = parseFloat(e.target.value) || 3;
-    document.getElementById('appreciation-badge').textContent = val + '% Annual Growth';
+  DOM.appreciation.addEventListener('input', e => {
+    const val = safeParseFloat(e.target.value, 3);
+    DOM.appreciationBadge.textContent = val + '% Annual Growth';
     calculate();
   });
 }
 
+/**
+ * Sync state values back to form inputs
+ */
 function syncInputsToState() {
-  document.getElementById('priceInput').value = STATE.price;
-  document.getElementById('totalInvInput').value = STATE.totalInv || '';
-  document.getElementById('propType').value = STATE.propType;
-  document.getElementById('beds').value = STATE.beds;
-  document.getElementById('baths').value = STATE.baths;
-  document.getElementById('baseOcc').value = STATE.baseOcc;
-  document.getElementById('avgLOS').value = STATE.avgLOS;
-  document.getElementById('rateHigh').value = STATE.rateHigh;
-  document.getElementById('rateMid').value = STATE.rateMid;
-  document.getElementById('rateLow').value = STATE.rateLow;
-  document.getElementById('holidayPrem').value = STATE.holidayPrem;
-  document.getElementById('wHigh').value = STATE.wHigh;
-  document.getElementById('wMid').value = STATE.wMid;
-  document.getElementById('wLow').value = STATE.wLow;
-  document.getElementById('wHoliday').value = STATE.wHoliday;
-  document.getElementById('otaPct').value = STATE.otaPct;
-  document.getElementById('hoaMonthly').value = STATE.hoaMonthly;
-  document.getElementById('opxMaint').value = STATE.opxMaint;
-  document.getElementById('opxClean').value = STATE.opxClean;
-  document.getElementById('opxElec').value = STATE.opxElec;
-  document.getElementById('opxWater').value = STATE.opxWater;
-  document.getElementById('opxNet').value = STATE.opxNet;
-  document.getElementById('opxIns').value = STATE.opxIns;
-  document.getElementById('opxRes').value = STATE.opxRes;
-  document.getElementById('opxGov').value = STATE.opxGov;
-  document.getElementById('financingMode').value = STATE.financingMode;
-  document.getElementById('ltvPct').value = STATE.ltvPct;
-  document.getElementById('downPct').value = STATE.downPct;
-  document.getElementById('ratePct').value = STATE.ratePct;
-  document.getElementById('termYears').value = STATE.termYears;
+  DOM.priceInput.value = STATE.price;
+  DOM.totalInvInput.value = STATE.totalInv || '';
+  DOM.propType.value = STATE.propType;
+  DOM.beds.value = STATE.beds;
+  DOM.baths.value = STATE.baths;
+  DOM.baseOcc.value = STATE.baseOcc;
+  DOM.avgLOS.value = STATE.avgLOS;
+  DOM.rateHigh.value = STATE.rateHigh;
+  DOM.rateMid.value = STATE.rateMid;
+  DOM.rateLow.value = STATE.rateLow;
+  DOM.holidayPrem.value = STATE.holidayPrem;
+  DOM.wHigh.value = STATE.wHigh;
+  DOM.wMid.value = STATE.wMid;
+  DOM.wLow.value = STATE.wLow;
+  DOM.wHoliday.value = STATE.wHoliday;
+  DOM.otaPct.value = STATE.otaPct;
+  DOM.hoaMonthly.value = STATE.hoaMonthly;
+  DOM.opxMaint.value = STATE.opxMaint;
+  DOM.opxClean.value = STATE.opxClean;
+  DOM.opxElec.value = STATE.opxElec;
+  DOM.opxWater.value = STATE.opxWater;
+  DOM.opxNet.value = STATE.opxNet;
+  DOM.opxIns.value = STATE.opxIns;
+  DOM.opxRes.value = STATE.opxRes;
+  DOM.opxGov.value = STATE.opxGov;
+  DOM.financingMode.value = STATE.financingMode;
+  DOM.ltvPct.value = STATE.ltvPct;
+  DOM.downPct.value = STATE.downPct;
+  DOM.ratePct.value = STATE.ratePct;
+  DOM.termYears.value = STATE.termYears;
   updateFinancingUI();
   updateDerivedAmounts();
 }
 
+/**
+ * Update financing UI visibility based on mode
+ */
 function updateFinancingUI() {
   const isBank = STATE.financingMode === 'BANK';
-  document.getElementById('ltvGroup').style.display = isBank ? 'flex' : 'none';
-  document.getElementById('downPctGroup').style.display = isBank ? 'flex' : 'none';
-  document.getElementById('rateGroup').style.display = isBank ? 'flex' : 'none';
+  DOM.ltvGroup.style.display = isBank ? 'flex' : 'none';
+  DOM.downPctGroup.style.display = isBank ? 'flex' : 'none';
+  DOM.rateGroup.style.display = isBank ? 'flex' : 'none';
   document.getElementById('termGroup').style.display = isBank ? 'flex' : 'none';
   
   // Mortgage output rows
@@ -1061,8 +1342,14 @@ function render10YearProjection() {
   document.getElementById('yearChart').innerHTML = svg;
 }
 
-// ===== INIT =====
+// ===== INITIALIZATION =====
+
+/**
+ * Initialize the application
+ * Cache DOM elements, bind events, and perform initial calculation
+ */
 document.addEventListener('DOMContentLoaded', () => {
+  cacheDOMElements();
   bindInputs();
   syncInputsToState();
   syncBrandingToPrint();
