@@ -977,8 +977,8 @@ function calculate() {
   // SCENARIO ANALYSIS
   renderScenarioTable();
   
-  // SENSITIVITY
-  renderSensitivityChart();
+  // SENSITIVITY (removed per user request)
+  // renderSensitivityChart();
   
   // DETAILED OPEX
   renderOPEXDetailTable(kpi.opex, kpi.totalOPEX);
@@ -988,6 +988,12 @@ function calculate() {
   
   // PROPERTY SUMMARY (for print)
   updatePropertySummary();
+  
+  // REALTOR INFO PANEL (for print)
+  updateRealtorInfoPanel();
+  
+  // REPORT DATE
+  updateReportDate();
 }
 
 function renderRevenueChart(rev) {
@@ -1134,12 +1140,12 @@ function renderWaterfallTable(kpi) {
 
 function renderScenarioTable() {
   let html = '';
-  for (let occ = 30; occ <= 85; occ += 5) {
+  for (let occ = 30; occ <= 100; occ += 5) {
     const kpi = computeKPIs(occ);
     const investment = STATE.totalInv ? fromCur(STATE.totalInv, STATE.currency) : fromCur(STATE.price, STATE.currency);
     const roi = (kpi.ownerNet / investment) * 100;
     const highlight = Math.abs(occ - STATE.baseOcc) <= 2.5 ? 'highlight-row' : '';
-    html += `<tr class="${highlight}">
+    html += `<tr class="${highlight}" data-occupancy="${occ}">
       <td>${occ}%</td>
       <td class="text-right">${fmt.money(toCur(kpi.totalRev, STATE.currency), STATE.currency)}</td>
       <td class="text-right">${fmt.money(toCur(kpi.netAfterOTA, STATE.currency), STATE.currency)}</td>
@@ -1418,6 +1424,52 @@ function render10YearProjection() {
   });
   svg += `</svg>`;
   document.getElementById('yearChart').innerHTML = svg;
+}
+
+/**
+ * Update realtor information panel for print output
+ */
+function updateRealtorInfoPanel() {
+  // Populate realtor info panel
+  document.getElementById('printAgentName').textContent = STATE.realtorName || '—';
+  document.getElementById('printAgentCompany').textContent = STATE.realtorCompany || '—';
+  document.getElementById('printAgentLicense').textContent = STATE.realtorLicense || '—';
+  
+  // Build contact string
+  const contactParts = [];
+  if (STATE.realtorPhone) contactParts.push(STATE.realtorPhone);
+  if (STATE.realtorEmail) contactParts.push(STATE.realtorEmail);
+  if (STATE.realtorWebsite) contactParts.push(STATE.realtorWebsite);
+  document.getElementById('printAgentContact').textContent = contactParts.join(' • ') || '—';
+  
+  // Copy realtor logo to panel
+  const realtorLogoPreview = document.getElementById('realtorLogoPreview');
+  const printAgentLogo = document.getElementById('printAgentLogo');
+  if (realtorLogoPreview && realtorLogoPreview.src && realtorLogoPreview.src !== window.location.href) {
+    printAgentLogo.src = realtorLogoPreview.src;
+    printAgentLogo.classList.remove('print-logo-hidden');
+  } else {
+    printAgentLogo.src = '';
+    printAgentLogo.classList.add('print-logo-hidden');
+  }
+}
+
+/**
+ * Update report generation date
+ */
+function updateReportDate() {
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('en-US', { 
+    year: 'numeric', 
+    month: 'long', 
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+  const reportDateEl = document.getElementById('reportDate');
+  if (reportDateEl) {
+    reportDateEl.textContent = dateStr;
+  }
 }
 
 // ===== INITIALIZATION =====

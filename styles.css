@@ -741,11 +741,211 @@ tr:hover {
   }
 
   /* Optimize chart heights */
-  #sensitivityChart,
   #opexChart,
   #revenueChart,
   #waterfallChart {
     max-height: 40mm !important;
+  }
+
+  /* Realtor Info Panel */
+  #realtorInfoPanel {
+    background: #1a2235 !important;
+    border: 1pt solid #2a3550;
+    margin-bottom: 0.75rem;
+    page-break-after: avoid;
+  }
+
+  .realtor-panel-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .realtor-panel-left h2 {
+    font-size: 10pt;
+    color: #1fb6ff !important;
+    margin: 0 0 0.5rem 0;
+  }
+
+  .realtor-details {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.4rem;
+  }
+
+  .realtor-detail-item {
+    display: flex;
+    flex-direction: column;
+    font-size: 7pt;
+  }
+
+  .detail-label {
+    color: #8b96b8 !important;
+    font-size: 6pt;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.1rem;
+  }
+
+  .detail-value {
+    color: #e9eefb !important;
+    font-weight: 600;
+  }
+
+  .agent-logo-large {
+    max-width: 80mm;
+    max-height: 25mm;
+    object-fit: contain;
+    margin-left: auto;
+    display: block;
+  }
+
+  /* Two-column layout for charts/tables */
+  .two-column-row {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+    page-break-inside: avoid;
+  }
+
+  .half-width {
+    width: 100%;
+    margin: 0 !important;
+  }
+
+  .half-width h2 {
+    font-size: 9pt;
+  }
+
+  .half-width table {
+    font-size: 6.5pt;
+  }
+
+  .half-width th {
+    padding: 0.15rem 0.3rem;
+  }
+
+  .half-width td {
+    padding: 0.15rem 0.3rem;
+  }
+
+  /* Improved contrast for printing */
+  body {
+    background: #0d1117 !important;
+  }
+
+  .card {
+    background: #1a2235 !important;
+    border: 1pt solid #2a3550;
+  }
+
+  h2, h3 {
+    color: #1fb6ff !important;
+    font-weight: 700;
+  }
+
+  table {
+    border-color: #2a3550 !important;
+  }
+
+  th {
+    background: #141a2e !important;
+    color: #1fb6ff !important;
+    font-weight: 700;
+  }
+
+  td {
+    background: #1a2235 !important;
+    color: #e9eefb !important;
+  }
+
+  tbody tr:nth-child(even) td {
+    background: #141a2e !important;
+  }
+
+  /* Heatmap for occupancy table */
+  #scenarioTable tbody tr {
+    transition: none;
+  }
+
+  /* Occupancy heatmap around 60% */
+  #scenarioTable tbody tr[data-occupancy="60"] td {
+    background: rgba(31, 182, 255, 0.4) !important;
+    font-weight: 700;
+    color: #ffffff !important;
+  }
+
+  #scenarioTable tbody tr[data-occupancy="55"] td,
+  #scenarioTable tbody tr[data-occupancy="65"] td {
+    background: rgba(31, 182, 255, 0.25) !important;
+    font-weight: 600;
+    color: #ffffff !important;
+  }
+
+  #scenarioTable tbody tr[data-occupancy="50"] td,
+  #scenarioTable tbody tr[data-occupancy="70"] td {
+    background: rgba(31, 182, 255, 0.15) !important;
+    color: #e9eefb !important;
+  }
+
+  /* Disclaimer section */
+  .disclaimer-section {
+    background: #141a2e !important;
+    border: 1.5pt solid #2a3550;
+    margin-top: 1rem;
+    font-size: 6.5pt;
+    line-height: 1.4;
+    page-break-before: avoid;
+  }
+
+  .disclaimer-section h3 {
+    font-size: 9pt;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    color: #1fb6ff !important;
+  }
+
+  .disclaimer-list {
+    margin: 0;
+    padding-left: 1.2rem;
+    color: #8b96b8 !important;
+  }
+
+  .disclaimer-list li {
+    margin-bottom: 0.3rem;
+  }
+
+  .disclaimer-list strong {
+    color: #e9eefb !important;
+  }
+
+  .disclaimer-footer {
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1pt solid #2a3550;
+    text-align: center;
+    font-size: 6pt;
+    color: #8b96b8 !important;
+  }
+
+  .disclaimer-footer strong {
+    color: #1fb6ff !important;
+  }
+
+  /* Larger print header */
+  #printHeader {
+    height: 24mm;
+    padding: 4mm 8mm;
+  }
+
+  #printBlueLogo, #printRealtorLogo {
+    max-height: 18mm;
+  }
+
+  .print-blue-text {
+    font-size: 13pt !important;
   }
 
   /* Page breaks */

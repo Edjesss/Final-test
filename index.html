@@ -300,6 +300,36 @@
   </div>
 </div>
 
+<!-- REALTOR INFO PANEL (print only) -->
+<div class="card print-only" id="realtorInfoPanel">
+  <div class="realtor-panel-content">
+    <div class="realtor-panel-left">
+      <h2 style="margin-top: 0;">Agent Information</h2>
+      <div class="realtor-details">
+        <div class="realtor-detail-item">
+          <span class="detail-label">Agent:</span>
+          <span class="detail-value" id="printAgentName">—</span>
+        </div>
+        <div class="realtor-detail-item">
+          <span class="detail-label">Company:</span>
+          <span class="detail-value" id="printAgentCompany">—</span>
+        </div>
+        <div class="realtor-detail-item">
+          <span class="detail-label">License:</span>
+          <span class="detail-value" id="printAgentLicense">—</span>
+        </div>
+        <div class="realtor-detail-item">
+          <span class="detail-label">Contact:</span>
+          <span class="detail-value" id="printAgentContact">—</span>
+        </div>
+      </div>
+    </div>
+    <div class="realtor-panel-right">
+      <img id="printAgentLogo" src="" alt="Agent Logo" class="agent-logo-large">
+    </div>
+  </div>
+</div>
+
 <!-- PROPERTY SUMMARY (print only) -->
 <div class="card print-only" id="propertySummaryCard">
   <h2>Property Summary</h2>
@@ -433,42 +463,68 @@
   </div>
 </div>
 
-<!-- REVENUE BREAKDOWN -->
-<div class="card">
-  <h2>Revenue Breakdown (Base Case)</h2>
-  <p><span class="badge" id="occBadge">0% Occupancy</span></p>
-  <div class="chart-container" id="revenueChart"></div>
-  <table>
-    <thead>
-      <tr>
-        <th>Season</th>
-        <th class="text-right">Nights Sold</th>
-        <th class="text-right">Revenue</th>
-      </tr>
-    </thead>
-    <tbody id="revenueTableBody"></tbody>
-  </table>
+<!-- REVENUE & WATERFALL ROW -->
+<div class="two-column-row">
+  <div class="card half-width">
+    <h2>Revenue Breakdown (Base Case)</h2>
+    <p><span class="badge" id="occBadge">0% Occupancy</span></p>
+    <div class="chart-container" id="revenueChart"></div>
+    <table>
+      <thead>
+        <tr>
+          <th>Season</th>
+          <th class="text-right">Nights</th>
+          <th class="text-right">Revenue</th>
+        </tr>
+      </thead>
+      <tbody id="revenueTableBody"></tbody>
+    </table>
+  </div>
+
+  <div class="card half-width">
+    <h2>Cash Flow Waterfall</h2>
+    <div class="chart-container" id="waterfallChart"></div>
+    <table class="table-spacing">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th class="text-right">Amount</th>
+        </tr>
+      </thead>
+      <tbody id="waterfallTableBody"></tbody>
+    </table>
+  </div>
 </div>
 
-<!-- OPEX DISTRIBUTION -->
-<div class="card">
-  <h2>OPEX Distribution</h2>
-  <div class="chart-container" id="opexChart"></div>
-</div>
+<!-- OPEX DETAILS & DISTRIBUTION ROW -->
+<div class="two-column-row">
+  <div class="card half-width">
+    <h2>Detailed OPEX Breakdown</h2>
+    <table id="opexDetailTable">
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th class="text-right">Monthly</th>
+          <th class="text-right">Annual</th>
+          <th class="text-right">%</th>
+        </tr>
+      </thead>
+      <tbody id="opexDetailTableBody"></tbody>
+      <tfoot>
+        <tr class="bold">
+          <td>TOTAL</td>
+          <td class="text-right" id="opexTotalMonthly">$0</td>
+          <td class="text-right" id="opexTotalAnnual">$0</td>
+          <td class="text-right">100%</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
 
-<!-- CASH FLOW WATERFALL -->
-<div class="card">
-  <h2>Cash Flow Waterfall (Base Case)</h2>
-  <div class="chart-container" id="waterfallChart"></div>
-  <table class="table-spacing">
-    <thead>
-      <tr>
-        <th>Item</th>
-        <th class="text-right">Amount</th>
-      </tr>
-    </thead>
-    <tbody id="waterfallTableBody"></tbody>
-  </table>
+  <div class="card half-width">
+    <h2>OPEX Distribution</h2>
+    <div class="chart-container" id="opexChart"></div>
+  </div>
 </div>
 
 <!-- OCCUPANCY SCENARIO ANALYSIS -->
@@ -491,37 +547,6 @@
       <tbody id="scenarioTableBody"></tbody>
     </table>
   </div>
-</div>
-
-<!-- SENSITIVITY TORNADO -->
-<div class="card">
-  <h2>Sensitivity Analysis (Tornado Chart)</h2>
-  <p class="small-text">Impact of ±20% change on Owner Net Income</p>
-  <div class="chart-container" id="sensitivityChart"></div>
-</div>
-
-<!-- DETAILED OPEX -->
-<div class="card">
-  <h2>Detailed OPEX Breakdown</h2>
-  <table id="opexDetailTable">
-    <thead>
-      <tr>
-        <th>Category</th>
-        <th class="text-right">Monthly</th>
-        <th class="text-right">Annual</th>
-        <th class="text-right">% of Total</th>
-      </tr>
-    </thead>
-    <tbody id="opexDetailTableBody"></tbody>
-    <tfoot>
-      <tr class="bold">
-        <td>TOTAL</td>
-        <td class="text-right" id="opexTotalMonthly">$0</td>
-        <td class="text-right" id="opexTotalAnnual">$0</td>
-        <td class="text-right">100%</td>
-      </tr>
-    </tfoot>
-  </table>
 </div>
 
 <!-- 10-YEAR PROJECTION -->
@@ -556,6 +581,24 @@
       <tbody id="yearTableBody"></tbody>
     </table>
   </div>
+</div>
+
+<!-- DISCLAIMER (print only) -->
+<div class="card print-only disclaimer-section">
+  <h3>Important Notes & Disclaimers</h3>
+  <ul class="disclaimer-list">
+    <li><strong>Estimates & Projections:</strong> All financial projections, occupancy rates, and revenue estimates presented in this report are based on assumptions and historical data. Actual results may vary significantly.</li>
+    <li><strong>Market Conditions:</strong> Tourism demand, seasonal variations, competitive landscape, and economic conditions can impact actual performance.</li>
+    <li><strong>No Guarantee:</strong> Past performance and projections do not guarantee future results. Vacation rental income is subject to market fluctuations and operational variables.</li>
+    <li><strong>Professional Advice:</strong> This calculator is for informational purposes only. Consult with qualified financial, tax, and legal advisors before making investment decisions.</li>
+    <li><strong>Tax Implications:</strong> Tax benefits and deductions referenced are general estimates. Individual tax situations vary. Seek professional tax guidance.</li>
+    <li><strong>Operational Assumptions:</strong> OPEX estimates are based on typical industry standards and may not reflect actual costs for your specific property.</li>
+    <li><strong>Currency:</strong> All values are presented in the selected currency (USD or AWG) and subject to exchange rate fluctuations.</li>
+  </ul>
+  <p class="disclaimer-footer">
+    <strong>Report Generated:</strong> <span id="reportDate"></span> | 
+    <strong>Blue Aruba Rentals</strong> — Professional Vacation Rental Management
+  </p>
 </div>
 
 </div>
