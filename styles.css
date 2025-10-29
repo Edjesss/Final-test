@@ -590,9 +590,14 @@ tr:hover {
     font-size: 10pt;
     font-weight: 600;
     margin-bottom: 0.5rem;
-    margin-top: 0;
+    margin-top: 0.75rem;
     border-bottom: 1pt solid #1fb6ff;
     padding-bottom: 0.25rem;
+  }
+  
+  /* First h2 after header needs extra margin */
+  .card:first-of-type h2 {
+    margin-top: 0;
   }
 
   h3 {
@@ -807,7 +812,7 @@ tr:hover {
     grid-template-columns: 1fr 1fr;
     gap: 0.75rem;
     margin-bottom: 0.75rem;
-    page-break-inside: avoid;
+    page-break-after: avoid;
   }
 
   .half-width {
@@ -932,6 +937,32 @@ tr:hover {
 
   .disclaimer-footer strong {
     color: #1fb6ff !important;
+  }
+
+  /* Specific section spacing to avoid title hiding */
+  .two-column-row .card h2 {
+    margin-top: 0 !important;
+  }
+  
+  /* Keep OPEX row together and occupancy on same page */
+  #opexRow {
+    page-break-after: avoid !important;
+  }
+  
+  /* Occupancy section should fit on page 2 with OPEX */
+  #occupancySection {
+    page-break-before: avoid !important;
+    page-break-after: auto;
+  }
+  
+  /* 10-year projection starts on new page (page 3) */
+  #tenYearSection {
+    page-break-before: always !important;
+  }
+  
+  /* Revenue/Waterfall row at top needs proper spacing from header */
+  #revenueWaterfallRow {
+    margin-top: 1rem;
   }
 
   /* Larger print header */
