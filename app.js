@@ -50,6 +50,10 @@ const STATE = {
   propType: 'Condo',
   beds: 2,
   baths: 2,
+  propertyName: '',
+  propertyAddress: '',
+  studios: 0,
+  apartments: 0,
   
   // Occupancy
   baseOcc: 59.5,
@@ -123,6 +127,19 @@ function cacheDOMElements() {
   DOM.propType = document.getElementById('propType');
   DOM.beds = document.getElementById('beds');
   DOM.baths = document.getElementById('baths');
+  DOM.propertyName = document.getElementById('propertyName');
+  DOM.propertyAddress = document.getElementById('propertyAddress');
+  DOM.studios = document.getElementById('studios');
+  DOM.apartments = document.getElementById('apartments');
+  
+  // Print property summary elements
+  DOM.printPropertyName = document.getElementById('printPropertyName');
+  DOM.printPropertyAddress = document.getElementById('printPropertyAddress');
+  DOM.printPropertyType = document.getElementById('printPropertyType');
+  DOM.printBedrooms = document.getElementById('printBedrooms');
+  DOM.printBathrooms = document.getElementById('printBathrooms');
+  DOM.printExtraSpaces = document.getElementById('printExtraSpaces');
+  DOM.printExtraSpacesItem = document.getElementById('printExtraSpacesItem');
   
   // Financing
   DOM.financingMode = document.getElementById('financingMode');
@@ -335,6 +352,22 @@ function bindInputs() {
   
   DOM.baths.addEventListener('input', e => {
     STATE.baths = safeParseFloat(e.target.value, 2);
+  });
+  
+  DOM.propertyName.addEventListener('input', e => {
+    STATE.propertyName = e.target.value;
+  });
+  
+  DOM.propertyAddress.addEventListener('input', e => {
+    STATE.propertyAddress = e.target.value;
+  });
+  
+  DOM.studios.addEventListener('input', e => {
+    STATE.studios = safeParseFloat(e.target.value, 0);
+  });
+  
+  DOM.apartments.addEventListener('input', e => {
+    STATE.apartments = safeParseFloat(e.target.value, 0);
   });
   
   // Financing
@@ -850,6 +883,43 @@ function computeMortgage() {
 }
 
 // ===== RENDERING =====
+/**
+ * Updates the property summary panel for print output
+ */
+function updatePropertySummary() {
+  // Update property name
+  DOM.printPropertyName.textContent = STATE.propertyName || '—';
+  
+  // Update address
+  DOM.printPropertyAddress.textContent = STATE.propertyAddress || '—';
+  
+  // Update property type
+  DOM.printPropertyType.textContent = STATE.propType || '—';
+  
+  // Update bedrooms
+  DOM.printBedrooms.textContent = STATE.beds;
+  
+  // Update bathrooms
+  DOM.printBathrooms.textContent = STATE.baths;
+  
+  // Update extra spaces
+  const extraSpaces = [];
+  if (STATE.studios > 0) {
+    extraSpaces.push(`${STATE.studios} Studio${STATE.studios > 1 ? 's' : ''}`);
+  }
+  if (STATE.apartments > 0) {
+    extraSpaces.push(`${STATE.apartments} Apartment${STATE.apartments > 1 ? 's' : ''}`);
+  }
+  
+  if (extraSpaces.length > 0) {
+    DOM.printExtraSpaces.textContent = extraSpaces.join(', ');
+    DOM.printExtraSpacesItem.style.display = '';
+  } else {
+    DOM.printExtraSpaces.textContent = 'None';
+    DOM.printExtraSpacesItem.style.display = 'none';
+  }
+}
+
 function calculate() {
   const kpi = computeKPIs(STATE.baseOcc);
   const mort = computeMortgage();
@@ -915,6 +985,9 @@ function calculate() {
   
   // 10-YEAR PROJECTION
   render10YearProjection();
+  
+  // PROPERTY SUMMARY (for print)
+  updatePropertySummary();
 }
 
 function renderRevenueChart(rev) {
