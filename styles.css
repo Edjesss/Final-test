@@ -445,11 +445,11 @@ tr:hover {
   }
 
   body {
-    background: #0a0e1a !important;
-    color: #e9eefb !important;
+    background: #ffffff !important;
+    color: #1a1a1a !important;
     padding: 0;
     margin: 0;
-    margin-top: 22mm;
+    margin-top: 16mm;
     font-size: 8pt;
     line-height: 1.3;
   }
@@ -463,9 +463,9 @@ tr:hover {
     top: 0;
     left: 0;
     right: 0;
-    height: 18mm;
-    background: #141a2e !important;
-    padding: 3mm 6mm;
+    height: 12mm;
+    background: #f8f9fa !important;
+    padding: 2mm 6mm;
     border-bottom: 1pt solid #1fb6ff;
     z-index: 999;
   }
@@ -486,24 +486,24 @@ tr:hover {
     display: flex;
     flex-direction: column;
     gap: 0.1rem;
-    font-size: 7pt;
-    color: #8b96b8 !important;
+    font-size: 6.5pt;
+    color: #666666 !important;
   }
 
   #printBlueLogo, #printRealtorLogo {
-    max-height: 14mm;
-    max-width: 75px;
+    max-height: 10mm;
+    max-width: 60px;
   }
 
   .print-blue-text {
-    font-size: 11pt !important;
+    font-size: 10pt !important;
     font-weight: 600;
     color: #1fb6ff !important;
   }
 
   .print-website-text {
-    font-size: 6.5pt !important;
-    color: #8b96b8 !important;
+    font-size: 6pt !important;
+    color: #666666 !important;
   }
 
   /* Hide form inputs but show hero section */
@@ -518,20 +518,21 @@ tr:hover {
     gap: 0.5rem;
     margin-bottom: 1rem;
     padding: 0.75rem;
-    background: #141a2e !important;
+    background: #f8f9fa !important;
     border-radius: 4px;
   }
 
   .hero-card {
-    background: #1a2235 !important;
+    background: #ffffff !important;
     padding: 0.5rem;
     border-radius: 4px;
     border-left: 2pt solid #1fb6ff;
+    border: 1pt solid #e0e0e0;
   }
 
   .hero-label {
     font-size: 7pt;
-    color: #8b96b8 !important;
+    color: #666666 !important;
     text-transform: uppercase;
     margin-bottom: 0.25rem;
   }
@@ -563,7 +564,7 @@ tr:hover {
 
   .summary-label {
     font-size: 6.5pt;
-    color: #8b96b8 !important;
+    color: #666666 !important;
     text-transform: uppercase;
     letter-spacing: 0.03em;
     font-weight: 600;
@@ -571,14 +572,14 @@ tr:hover {
 
   .summary-value {
     font-size: 8pt;
-    color: #e9eefb !important;
+    color: #1a1a1a !important;
     font-weight: 500;
   }
 
   .card {
-    background: #141a2e !important;
+    background: #ffffff !important;
     box-shadow: none;
-    border: none;
+    border: 1pt solid #e0e0e0;
     page-break-inside: avoid;
     margin-bottom: 0.75rem;
     padding: 0.75rem;
@@ -590,7 +591,7 @@ tr:hover {
     font-size: 10pt;
     font-weight: 600;
     margin-bottom: 0.5rem;
-    margin-top: 0.75rem;
+    margin-top: 0.5rem;
     border-bottom: 1pt solid #1fb6ff;
     padding-bottom: 0.25rem;
   }
@@ -604,13 +605,13 @@ tr:hover {
     font-size: 9pt;
     font-weight: 600;
     margin: 0.5rem 0 0.25rem 0;
-    color: #8b96b8 !important;
+    color: #666666 !important;
   }
 
   p {
     margin: 0.25rem 0;
     font-size: 7.5pt;
-    color: #e9eefb !important;
+    color: #1a1a1a !important;
   }
 
   table {
@@ -618,26 +619,26 @@ tr:hover {
     width: 100%;
     border-collapse: collapse;
     margin: 0.5rem 0;
-    background: #1a2235 !important;
+    background: #ffffff !important;
     border-radius: 4px;
     overflow: hidden;
   }
 
   th {
-    background: #1a2235 !important;
-    color: #8b96b8 !important;
+    background: #f8f9fa !important;
+    color: #666666 !important;
     font-weight: 600;
     padding: 0.3rem 0.4rem;
-    border: 1pt solid #0a0e1a;
+    border: 1pt solid #e0e0e0;
     font-size: 7pt;
     text-transform: uppercase;
   }
 
   td {
     padding: 0.3rem 0.4rem;
-    border: 1pt solid #0a0e1a;
-    color: #e9eefb !important;
-    background: #1a2235 !important;
+    border: 1pt solid #e0e0e0;
+    color: #1a1a1a !important;
+    background: #ffffff !important;
   }
 
   tr:hover {
@@ -645,18 +646,19 @@ tr:hover {
   }
 
   .highlight-row, tr.bold {
-    background: #1fb6ff !important;
+    background: #e3f2fd !important;
     font-weight: 700;
-    color: #0a0e1a !important;
+    color: #1a1a1a !important;
   }
 
   .highlight-row td, tr.bold td {
-    color: #0a0e1a !important;
+    color: #1a1a1a !important;
+    background: #e3f2fd !important;
   }
 
   .badge {
     border: 1pt solid #1fb6ff;
-    background: #1a2235 !important;
+    background: #e3f2fd !important;
     color: #1fb6ff !important;
     padding: 0.2rem 0.4rem;
     font-size: 7pt;
@@ -672,15 +674,16 @@ tr:hover {
   }
 
   .kpi-card {
-    background: #1a2235 !important;
+    background: #ffffff !important;
     padding: 0.5rem;
     border-radius: 4px;
     border-left: 2pt solid #1fb6ff;
+    border: 1pt solid #e0e0e0;
   }
 
   .kpi-label {
     font-size: 6.5pt;
-    color: #8b96b8 !important;
+    color: #666666 !important;
     text-transform: uppercase;
     margin-bottom: 0.25rem;
     letter-spacing: 0.03em;
@@ -694,9 +697,10 @@ tr:hover {
 
   .chart-container {
     margin: 0.5rem 0;
-    background: #1a2235 !important;
+    background: #ffffff !important;
     padding: 0.5rem;
     border-radius: 4px;
+    border: 1pt solid #e0e0e0;
   }
 
   .chart-container svg {
@@ -706,7 +710,7 @@ tr:hover {
   .progress-bar {
     height: 12px;
     margin: 0.25rem 0;
-    background: #1a2235 !important;
+    background: #e0e0e0 !important;
     border-radius: 6px;
     overflow: hidden;
   }
@@ -714,7 +718,7 @@ tr:hover {
   .progress-fill {
     background: #1fb6ff !important;
     font-size: 6pt;
-    color: #0a0e1a !important;
+    color: #ffffff !important;
   }
 
   /* Breakeven section */
@@ -742,7 +746,7 @@ tr:hover {
   #mConversion {
     font-size: 6.5pt;
     margin: 0.25rem 0;
-    color: #8b96b8 !important;
+    color: #666666 !important;
   }
 
   /* Optimize chart heights */
@@ -754,8 +758,8 @@ tr:hover {
 
   /* Realtor Info Panel */
   #realtorInfoPanel {
-    background: #1a2235 !important;
-    border: 1pt solid #2a3550;
+    background: #f8f9fa !important;
+    border: 1pt solid #e0e0e0;
     margin-bottom: 0.75rem;
     page-break-after: avoid;
   }
@@ -786,7 +790,7 @@ tr:hover {
   }
 
   .detail-label {
-    color: #8b96b8 !important;
+    color: #666666 !important;
     font-size: 6pt;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -794,7 +798,7 @@ tr:hover {
   }
 
   .detail-value {
-    color: #e9eefb !important;
+    color: #1a1a1a !important;
     font-weight: 600;
   }
 
@@ -836,38 +840,9 @@ tr:hover {
     padding: 0.15rem 0.3rem;
   }
 
-  /* Improved contrast for printing */
-  body {
-    background: #0d1117 !important;
-  }
-
-  .card {
-    background: #1a2235 !important;
-    border: 1pt solid #2a3550;
-  }
-
-  h2, h3 {
-    color: #1fb6ff !important;
-    font-weight: 700;
-  }
-
-  table {
-    border-color: #2a3550 !important;
-  }
-
-  th {
-    background: #141a2e !important;
-    color: #1fb6ff !important;
-    font-weight: 700;
-  }
-
-  td {
-    background: #1a2235 !important;
-    color: #e9eefb !important;
-  }
-
+  /* Improved contrast for printing - white theme */
   tbody tr:nth-child(even) td {
-    background: #141a2e !important;
+    background: #f8f9fa !important;
   }
 
   /* Heatmap for occupancy table */
@@ -877,28 +852,28 @@ tr:hover {
 
   /* Occupancy heatmap around 60% */
   #scenarioTable tbody tr[data-occupancy="60"] td {
-    background: rgba(31, 182, 255, 0.4) !important;
+    background: rgba(31, 182, 255, 0.3) !important;
     font-weight: 700;
-    color: #ffffff !important;
+    color: #1a1a1a !important;
   }
 
   #scenarioTable tbody tr[data-occupancy="55"] td,
   #scenarioTable tbody tr[data-occupancy="65"] td {
-    background: rgba(31, 182, 255, 0.25) !important;
+    background: rgba(31, 182, 255, 0.2) !important;
     font-weight: 600;
-    color: #ffffff !important;
+    color: #1a1a1a !important;
   }
 
   #scenarioTable tbody tr[data-occupancy="50"] td,
   #scenarioTable tbody tr[data-occupancy="70"] td {
-    background: rgba(31, 182, 255, 0.15) !important;
-    color: #e9eefb !important;
+    background: rgba(31, 182, 255, 0.1) !important;
+    color: #1a1a1a !important;
   }
 
   /* Disclaimer section */
   .disclaimer-section {
-    background: #141a2e !important;
-    border: 1.5pt solid #2a3550;
+    background: #f8f9fa !important;
+    border: 1.5pt solid #e0e0e0;
     margin-top: 1rem;
     font-size: 6.5pt;
     line-height: 1.4;
@@ -915,7 +890,7 @@ tr:hover {
   .disclaimer-list {
     margin: 0;
     padding-left: 1.2rem;
-    color: #8b96b8 !important;
+    color: #666666 !important;
   }
 
   .disclaimer-list li {
@@ -923,16 +898,16 @@ tr:hover {
   }
 
   .disclaimer-list strong {
-    color: #e9eefb !important;
+    color: #1a1a1a !important;
   }
 
   .disclaimer-footer {
     margin-top: 0.5rem;
     padding-top: 0.5rem;
-    border-top: 1pt solid #2a3550;
+    border-top: 1pt solid #e0e0e0;
     text-align: center;
     font-size: 6pt;
-    color: #8b96b8 !important;
+    color: #666666 !important;
   }
 
   .disclaimer-footer strong {
@@ -962,21 +937,7 @@ tr:hover {
   
   /* Revenue/Waterfall row at top needs proper spacing from header */
   #revenueWaterfallRow {
-    margin-top: 1rem;
-  }
-
-  /* Larger print header */
-  #printHeader {
-    height: 24mm;
-    padding: 4mm 8mm;
-  }
-
-  #printBlueLogo, #printRealtorLogo {
-    max-height: 18mm;
-  }
-
-  .print-blue-text {
-    font-size: 13pt !important;
+    margin-top: 0.5rem;
   }
 
   /* Page breaks */
