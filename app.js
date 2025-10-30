@@ -670,7 +670,6 @@ function syncBrandingToPrint() {
   document.getElementById('printBlueWebsite').textContent = STATE.blueWebsite;
   document.getElementById('printRealtorName').textContent = STATE.realtorName;
   document.getElementById('printRealtorCompany').textContent = STATE.realtorCompany;
-  document.getElementById('printRealtorLicense').textContent = STATE.realtorLicense;
   
   const contactParts = [STATE.realtorPhone, STATE.realtorEmail, STATE.realtorWebsite].filter(x => x);
   document.getElementById('printRealtorContact').textContent = contactParts.join(' • ');
@@ -1433,7 +1432,6 @@ function updateRealtorInfoPanel() {
   // Populate realtor info panel
   document.getElementById('printAgentName').textContent = STATE.realtorName || '—';
   document.getElementById('printAgentCompany').textContent = STATE.realtorCompany || '—';
-  document.getElementById('printAgentLicense').textContent = STATE.realtorLicense || '—';
   
   // Build contact string
   const contactParts = [];
