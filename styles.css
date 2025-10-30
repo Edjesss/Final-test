@@ -671,6 +671,7 @@ tr:hover {
     grid-template-columns: repeat(4, 1fr);
     gap: 0.5rem;
     margin-bottom: 0.75rem;
+    page-break-before: always !important;
   }
 
   .kpi-card {
@@ -919,25 +920,32 @@ tr:hover {
     margin-top: 0 !important;
   }
   
-  /* Keep OPEX row together and occupancy on same page */
-  #opexRow {
+  /* Revenue/Waterfall row on page 2 after KPIs */
+  #revenueWaterfallRow {
+    page-break-before: avoid !important;
     page-break-after: avoid !important;
   }
   
-  /* Occupancy section should fit on page 2 with OPEX */
+  /* OPEX row starts page 3 */
+  #opexRow {
+    page-break-before: always !important;
+    page-break-after: avoid !important;
+  }
+  
+  /* Occupancy section stays on page 3 with OPEX */
   #occupancySection {
     page-break-before: avoid !important;
-    page-break-after: auto;
+    page-break-after: avoid !important;
   }
   
-  /* 10-year projection starts on new page (page 3) */
+  /* 10-year projection starts on page 4 with extra margin for title visibility */
   #tenYearSection {
     page-break-before: always !important;
+    margin-top: 1.5rem !important;
   }
   
-  /* Revenue/Waterfall row at top needs proper spacing from header */
-  #revenueWaterfallRow {
-    margin-top: 0.5rem;
+  #tenYearSection h2 {
+    margin-top: 0 !important;
   }
 
   /* Page breaks */
