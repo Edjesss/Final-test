@@ -1,0 +1,965 @@
+/* CSS Variables */
+:root {
+  --bg: #0a0e1a;
+  --panel: #0d1128;
+  --card: #0f1530;
+  --ink: #e9eefb;
+  --muted: #8b96b8;
+  --accent: #1fb6ff;
+  --accent2: #12d0b4;
+  --danger: #ff5a5f;
+  --ok: #31d158;
+  --warn: #ffc107;
+  --shadow: 0 8px 32px rgba(0,0,0,.4);
+  --glow: 0 0 20px rgba(31,182,255,.15);
+}
+
+/* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.6;
+  padding: 2rem;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Typography */
+h1, h2, h3 {
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+h1 { font-size: 2rem; }
+h2 { font-size: 1.5rem; color: var(--accent); }
+h3 { font-size: 1.25rem; }
+
+/* Card Components */
+.card {
+  background: var(--card);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow);
+}
+
+/* Hero Stats */
+.hero {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.hero-stat, .hero-card {
+  background: linear-gradient(135deg, var(--panel), var(--card));
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: var(--glow);
+  text-align: center;
+}
+
+.hero-stat .label, .hero-label {
+  font-size: 0.875rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.hero-stat .value, .hero-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-top: 0.5rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Forms */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+label {
+  font-size: 0.875rem;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+input, select, button {
+  background: var(--panel);
+  border: 1px solid rgba(139,150,184,.2);
+  color: var(--ink);
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(31,182,255,.1);
+}
+
+input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Buttons */
+button {
+  cursor: pointer;
+  font-weight: 600;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  border: none;
+  padding: 0.875rem 1.5rem;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(31,182,255,.3);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  background: var(--panel);
+  border: 1px solid rgba(139,150,184,.3);
+}
+
+.btn-danger {
+  background: var(--danger);
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+
+th, td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(139,150,184,.1);
+}
+
+th {
+  font-weight: 600;
+  color: var(--accent2);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+td {
+  color: var(--ink);
+}
+
+tr:hover {
+  background: rgba(31,182,255,.05);
+}
+
+/* Utility Classes */
+.text-right {
+  text-align: right;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.bold {
+  font-weight: 700;
+}
+
+.highlight-row {
+  background: rgba(31,182,255,.15) !important;
+}
+
+.appreciation-input {
+  max-width: 300px;
+  margin-bottom: 1rem;
+}
+
+.badge-spacing {
+  margin-top: 0.5rem;
+}
+
+.small-text {
+  font-size: 0.875rem;
+  color: var(--muted);
+  margin-bottom: 1rem;
+}
+
+.conversion-text {
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.breakeven-section {
+  margin-top: 1.5rem;
+}
+
+.breakeven-value {
+  font-size: 1.25rem;
+  margin: 0.5rem 0;
+}
+
+.table-spacing {
+  margin-top: 1rem;
+}
+
+.overflow-scroll {
+  overflow-x: auto;
+}
+
+.kpi-spacing {
+  margin-bottom: 1.5rem;
+}
+
+/* Badges */
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  background: var(--accent);
+  color: var(--bg);
+}
+
+.badge-success {
+  background: var(--ok);
+}
+
+.badge-warning {
+  background: var(--warn);
+}
+
+.badge-danger {
+  background: var(--danger);
+}
+
+/* KPI Cards */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.kpi-card {
+  background: var(--panel);
+  padding: 1rem;
+  border-radius: 8px;
+  border-left: 4px solid var(--accent);
+}
+
+.kpi-label {
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.kpi-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 0.25rem;
+}
+
+/* Charts */
+.chart-container {
+  margin: 1.5rem 0;
+}
+
+/* Logo Preview */
+.logo-preview {
+  max-width: 200px;
+  max-height: 100px;
+  margin-top: 0.5rem;
+  display: none;
+}
+
+.logo-preview.active {
+  display: block;
+}
+
+/* Currency Toggle */
+.currency-toggle {
+  display: inline-flex;
+  background: var(--panel);
+  border-radius: 8px;
+  padding: 0.25rem;
+}
+
+.currency-toggle button {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+.currency-toggle button.active {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+/* Progress Bar */
+.progress-bar {
+  height: 24px;
+  background: var(--panel);
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  transition: width 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--bg);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+/* Print Styles */
+#printHeader {
+  display: none;
+}
+
+.print-logo-hidden {
+  display: none;
+}
+
+.print-blue-text {
+  font-size: 18pt;
+  font-weight: 700;
+  color: #1fb6ff;
+}
+
+.print-website-text {
+  font-size: 10pt;
+  color: #666;
+}
+
+.print-realtor-name {
+  font-weight: 700;
+}
+
+.print-info-text {
+  font-size: 9pt;
+  color: #666;
+}
+
+.section-spacing {
+  margin-top: 1.5rem;
+}
+
+.form-spacing {
+  margin-top: 1rem;
+}
+
+.btn-spacing {
+  margin-top: 0.5rem;
+}
+
+.readonly-input {
+  background: var(--card);
+}
+
+.print-only {
+  display: none;
+}
+
+.property-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.summary-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.summary-label {
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+.summary-value {
+  font-size: 0.95rem;
+  color: var(--ink);
+  font-weight: 500;
+}
+
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 24mm 12mm 14mm 12mm; /* top right bottom left */
+  }
+
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #1a1a1a !important;
+    padding: 0;
+    margin: 0;
+    font-size: 8pt;
+    line-height: 1.3;
+  }
+
+  #printHeader {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1rem;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: auto;
+    min-height: 14mm;
+    background: #f8f9fa !important;
+    padding: 2mm 6mm;
+    border-bottom: 1pt solid #1fb6ff;
+    z-index: 999;
+  }
+
+  .print-left {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .print-right {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .realtor-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    font-size: 6.5pt;
+    color: #666666 !important;
+  }
+
+  #printBlueLogo, #printRealtorLogo {
+    max-height: 8mm;
+    max-width: 60px;
+  }
+
+  .print-blue-text {
+    font-size: 10pt !important;
+    font-weight: 600;
+    color: #1fb6ff !important;
+  }
+
+  .print-website-text {
+    font-size: 6pt !important;
+    color: #666666 !important;
+  }
+
+  /* Hide form inputs but show hero section */
+  .form-group, button, input, select, label, .screen-only {
+    display: none !important;
+  }
+
+  /* Show hero section */
+  .hero {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    background: #f8f9fa !important;
+    border-radius: 4px;
+  }
+
+  .hero-card {
+    background: #ffffff !important;
+    padding: 0.5rem;
+    border-radius: 4px;
+    border-left: 2pt solid #1fb6ff;
+    border: 1pt solid #e0e0e0;
+  }
+
+  .hero-label {
+    font-size: 7pt;
+    color: #666666 !important;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+  }
+
+  .hero-value {
+    font-size: 11pt;
+    font-weight: 700;
+    color: #1fb6ff !important;
+  }
+
+  /* Show print-only elements */
+  .print-only {
+    display: block !important;
+  }
+
+  /* Property summary panel styles */
+  .property-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+
+  .summary-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .summary-label {
+    font-size: 6.5pt;
+    color: #666666 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    font-weight: 600;
+  }
+
+  .summary-value {
+    font-size: 8pt;
+    color: #1a1a1a !important;
+    font-weight: 500;
+  }
+
+  .card {
+    background: #ffffff !important;
+    box-shadow: none;
+    border: 1pt solid #e0e0e0;
+    page-break-inside: avoid;
+    margin-bottom: 0.75rem;
+    padding: 0.75rem;
+    border-radius: 4px;
+  }
+
+  h2 {
+    color: #1fb6ff !important;
+    font-size: 10pt;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    margin-top: 1rem;
+    border-bottom: 1pt solid #1fb6ff;
+    padding-bottom: 0.25rem;
+    padding-top: 2mm;
+  }
+  
+  /* First h2 after header needs extra margin */
+  .card:first-of-type h2 {
+    margin-top: 0;
+    padding-top: 2mm;
+  }
+
+  h3 {
+    font-size: 9pt;
+    font-weight: 600;
+    margin: 0.5rem 0 0.25rem 0;
+    color: #666666 !important;
+  }
+
+  p {
+    margin: 0.25rem 0;
+    font-size: 7.5pt;
+    color: #1a1a1a !important;
+  }
+
+  table {
+    font-size: 7pt;
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.5rem 0;
+    background: #ffffff !important;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  th {
+    background: #f8f9fa !important;
+    color: #666666 !important;
+    font-weight: 600;
+    padding: 0.3rem 0.4rem;
+    border: 1pt solid #e0e0e0;
+    font-size: 7pt;
+    text-transform: uppercase;
+  }
+
+  td {
+    padding: 0.3rem 0.4rem;
+    border: 1pt solid #e0e0e0;
+    color: #1a1a1a !important;
+    background: #ffffff !important;
+  }
+
+  tr:hover {
+    background: transparent;
+  }
+
+  .highlight-row, tr.bold {
+    background: #e3f2fd !important;
+    font-weight: 700;
+    color: #1a1a1a !important;
+  }
+
+  .highlight-row td, tr.bold td {
+    color: #1a1a1a !important;
+    background: #e3f2fd !important;
+  }
+
+  .badge {
+    border: 1pt solid #1fb6ff;
+    background: #e3f2fd !important;
+    color: #1fb6ff !important;
+    padding: 0.2rem 0.4rem;
+    font-size: 7pt;
+    display: inline-block;
+    border-radius: 3px;
+  }
+
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    page-break-before: always !important;
+    page-break-inside: avoid !important;
+  }
+
+  .kpi-card {
+    background: #ffffff !important;
+    padding: 0.5rem;
+    border-radius: 4px;
+    border-left: 2pt solid #1fb6ff;
+    border: 1pt solid #e0e0e0;
+  }
+
+  .kpi-label {
+    font-size: 6.5pt;
+    color: #666666 !important;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+    letter-spacing: 0.03em;
+  }
+
+  .kpi-value {
+    font-size: 10pt;
+    font-weight: 700;
+    color: #1fb6ff !important;
+  }
+
+  .chart-container {
+    margin: 0.5rem 0;
+    background: #ffffff !important;
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1pt solid #e0e0e0;
+  }
+
+  .chart-container svg {
+    max-height: 40mm;
+  }
+
+  .progress-bar {
+    height: 12px;
+    margin: 0.25rem 0;
+    background: #e0e0e0 !important;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    background: #1fb6ff !important;
+    font-size: 6pt;
+    color: #ffffff !important;
+  }
+
+  /* Breakeven section */
+  .breakeven-section {
+    margin-top: 0.5rem;
+  }
+
+  .breakeven-value {
+    font-size: 10pt;
+    margin: 0.25rem 0;
+    color: #1fb6ff !important;
+    font-weight: 700;
+  }
+
+  /* Table alignment */
+  .text-right {
+    text-align: right;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  /* Conversion text styling */
+  #mConversion {
+    font-size: 6.5pt;
+    margin: 0.25rem 0;
+    color: #666666 !important;
+  }
+
+  /* Optimize chart heights */
+  #opexChart,
+  #revenueChart,
+  #waterfallChart {
+    max-height: 40mm !important;
+  }
+
+  /* Realtor Info Panel */
+  #realtorInfoPanel {
+    background: #f8f9fa !important;
+    border: 1pt solid #e0e0e0;
+    margin-bottom: 0.75rem;
+    page-break-after: avoid;
+  }
+
+  .realtor-panel-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .realtor-panel-left h2 {
+    font-size: 10pt;
+    color: #1fb6ff !important;
+    margin: 0 0 0.5rem 0;
+  }
+
+  .realtor-details {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.4rem;
+  }
+
+  .realtor-detail-item {
+    display: flex;
+    flex-direction: column;
+    font-size: 7pt;
+  }
+
+  .detail-label {
+    color: #666666 !important;
+    font-size: 6pt;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.1rem;
+  }
+
+  .detail-value {
+    color: #1a1a1a !important;
+    font-weight: 600;
+  }
+
+  .agent-logo-large {
+    max-width: 80mm;
+    max-height: 25mm;
+    object-fit: contain;
+    margin-left: auto;
+    display: block;
+  }
+
+  /* Two-column layout for charts/tables */
+  .two-column-row {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+    page-break-after: avoid;
+  }
+
+  .half-width {
+    width: 100%;
+    margin: 0 !important;
+  }
+
+  .half-width h2 {
+    font-size: 9pt;
+  }
+
+  .half-width table {
+    font-size: 6.5pt;
+  }
+
+  .half-width th {
+    padding: 0.15rem 0.3rem;
+  }
+
+  .half-width td {
+    padding: 0.15rem 0.3rem;
+  }
+
+  /* Improved contrast for printing - white theme */
+  tbody tr:nth-child(even) td {
+    background: #f8f9fa !important;
+  }
+
+  /* Heatmap for occupancy table */
+  #scenarioTable tbody tr {
+    transition: none;
+  }
+
+  /* Occupancy heatmap around 60% */
+  #scenarioTable tbody tr[data-occupancy="60"] td {
+    background: rgba(31, 182, 255, 0.3) !important;
+    font-weight: 700;
+    color: #1a1a1a !important;
+  }
+
+  #scenarioTable tbody tr[data-occupancy="55"] td,
+  #scenarioTable tbody tr[data-occupancy="65"] td {
+    background: rgba(31, 182, 255, 0.2) !important;
+    font-weight: 600;
+    color: #1a1a1a !important;
+  }
+
+  #scenarioTable tbody tr[data-occupancy="50"] td,
+  #scenarioTable tbody tr[data-occupancy="70"] td {
+    background: rgba(31, 182, 255, 0.1) !important;
+    color: #1a1a1a !important;
+  }
+
+  /* Disclaimer section */
+  .disclaimer-section {
+    background: #f8f9fa !important;
+    border: 1.5pt solid #e0e0e0;
+    margin-top: 1rem;
+    font-size: 6.5pt;
+    line-height: 1.4;
+    page-break-before: avoid;
+  }
+
+  .disclaimer-section h3 {
+    font-size: 9pt;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    color: #1fb6ff !important;
+  }
+
+  .disclaimer-list {
+    margin: 0;
+    padding-left: 1.2rem;
+    color: #666666 !important;
+  }
+
+  .disclaimer-list li {
+    margin-bottom: 0.3rem;
+  }
+
+  .disclaimer-list strong {
+    color: #1a1a1a !important;
+  }
+
+  .disclaimer-footer {
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1pt solid #e0e0e0;
+    text-align: center;
+    font-size: 6pt;
+    color: #666666 !important;
+  }
+
+  .disclaimer-footer strong {
+    color: #1fb6ff !important;
+  }
+
+  /* Specific section spacing to avoid title hiding */
+  .two-column-row .card h2 {
+    margin-top: 0 !important;
+  }
+  
+  /* Revenue/Waterfall row on page 2 after KPIs */
+  #revenueWaterfallRow {
+    page-break-before: avoid !important;
+    page-break-after: avoid !important;
+  }
+  
+  /* OPEX row starts page 3 */
+  #opexRow {
+    page-break-before: always !important;
+    page-break-after: avoid !important;
+  }
+  
+  /* Occupancy section stays on page 3 with OPEX */
+  #occupancySection {
+    page-break-before: avoid !important;
+    page-break-after: avoid !important;
+  }
+  
+  /* 10-year projection starts on page 4 with extra margin for title visibility */
+  #tenYearSection {
+    page-break-before: always !important;
+    page-break-inside: avoid !important;
+    margin-top: 1.5rem !important;
+  }
+  
+  #tenYearSection h2 {
+    margin-top: 0 !important;
+  }
+
+  /* Page breaks */
+  .card {
+    page-break-inside: avoid;
+  }
+}
+
+@media screen {
+  .screen-only {
+    display: block;
+  }
+}

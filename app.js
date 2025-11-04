@@ -1,919 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Blue Aruba — Professional ROI Calculator</title>
-<style>
-:root {
-  --bg: #0a0e1a;
-  --panel: #0d1128;
-  --card: #0f1530;
-  --ink: #e9eefb;
-  --muted: #8b96b8;
-  --accent: #1fb6ff;
-  --accent2: #12d0b4;
-  --danger: #ff5a5f;
-  --ok: #31d158;
-  --warn: #ffc107;
-  --shadow: 0 8px 32px rgba(0,0,0,.4);
-  --glow: 0 0 20px rgba(31,182,255,.15);
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: var(--bg);
-  color: var(--ink);
-  line-height: 1.6;
-  padding: 2rem;
-}
-
-.container {
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-h1, h2, h3 {
-  font-weight: 600;
-  margin-bottom: 1rem;
-}
-
-h1 { font-size: 2rem; }
-h2 { font-size: 1.5rem; color: var(--accent); }
-h3 { font-size: 1.25rem; }
-
-.card {
-  background: var(--card);
-  border-radius: 12px;
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
-  box-shadow: var(--shadow);
-}
-
-.hero {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-  margin-bottom: 2rem;
-}
-
-.hero-stat {
-  background: linear-gradient(135deg, var(--panel), var(--card));
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: var(--glow);
-  text-align: center;
-}
-
-.hero-stat .label {
-  font-size: 0.875rem;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.hero-stat .value {
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--accent);
-  margin-top: 0.5rem;
-  font-variant-numeric: tabular-nums;
-}
-
-.form-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1rem;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-label {
-  font-size: 0.875rem;
-  color: var(--muted);
-  font-weight: 500;
-}
-
-input, select, button {
-  background: var(--panel);
-  border: 1px solid rgba(139,150,184,.2);
-  color: var(--ink);
-  padding: 0.75rem;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-family: inherit;
-  transition: all 0.2s;
-}
-
-input:focus, select:focus {
-  outline: none;
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(31,182,255,.1);
-}
-
-input:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-button {
-  cursor: pointer;
-  font-weight: 600;
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
-  border: none;
-  padding: 0.875rem 1.5rem;
-}
-
-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(31,182,255,.3);
-}
-
-button:active {
-  transform: translateY(0);
-}
-
-.btn-secondary {
-  background: var(--panel);
-  border: 1px solid rgba(139,150,184,.3);
-}
-
-.btn-danger {
-  background: var(--danger);
-}
-
-.actions {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-variant-numeric: tabular-nums;
-}
-
-th, td {
-  padding: 0.75rem;
-  text-align: left;
-  border-bottom: 1px solid rgba(139,150,184,.1);
-}
-
-th {
-  font-weight: 600;
-  color: var(--accent2);
-  font-size: 0.875rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-td {
-  color: var(--ink);
-}
-
-tr:hover {
-  background: rgba(31,182,255,.05);
-}
-
-.text-right {
-  text-align: right;
-}
-
-.text-center {
-  text-align: center;
-}
-
-.badge {
-  display: inline-block;
-  padding: 0.25rem 0.75rem;
-  border-radius: 12px;
-  font-size: 0.875rem;
-  font-weight: 600;
-  background: var(--accent);
-  color: var(--bg);
-}
-
-.badge-success {
-  background: var(--ok);
-}
-
-.badge-warning {
-  background: var(--warn);
-}
-
-.badge-danger {
-  background: var(--danger);
-}
-
-.highlight-row {
-  background: rgba(31,182,255,.15) !important;
-}
-
-.bold {
-  font-weight: 700;
-}
-
-.kpi-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-  margin-bottom: 1rem;
-}
-
-.kpi-card {
-  background: var(--panel);
-  padding: 1rem;
-  border-radius: 8px;
-  border-left: 4px solid var(--accent);
-}
-
-.kpi-label {
-  font-size: 0.75rem;
-  color: var(--muted);
-  text-transform: uppercase;
-}
-
-.kpi-value {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-top: 0.25rem;
-}
-
-.chart-container {
-  margin: 1.5rem 0;
-}
-
-.logo-preview {
-  max-width: 200px;
-  max-height: 100px;
-  margin-top: 0.5rem;
-  display: none;
-}
-
-.logo-preview.active {
-  display: block;
-}
-
-.currency-toggle {
-  display: inline-flex;
-  background: var(--panel);
-  border-radius: 8px;
-  padding: 0.25rem;
-}
-
-.currency-toggle button {
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  background: transparent;
-  border: none;
-  color: var(--muted);
-  font-size: 0.875rem;
-}
-
-.currency-toggle button.active {
-  background: var(--accent);
-  color: var(--bg);
-}
-
-.progress-bar {
-  height: 24px;
-  background: var(--panel);
-  border-radius: 12px;
-  overflow: hidden;
-  position: relative;
-}
-
-.progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--accent), var(--accent2));
-  transition: width 0.3s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--bg);
-  font-size: 0.75rem;
-  font-weight: 700;
-}
-
-/* Print header - hidden on screen */
-#printHeader {
-  display: none;
-}
-
-@media print {
-  @page {
-    size: A4 portrait;
-    margin: 15mm;
-  }
-
-  body {
-    background: white;
-    color: #000;
-    padding: 0;
-    margin-top: 46mm;
-  }
-
-  #printHeader {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 2rem;
-    align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 42mm;
-    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-    padding: 6mm 8mm;
-    border-bottom: 0.5pt solid rgba(0,0,0,.15);
-    z-index: 999;
-  }
-
-  .print-left {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-
-  .print-right {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-
-  .realtor-info {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-    font-size: 10pt;
-  }
-
-  #printBlueLogo, #printRealtorLogo {
-    max-height: 30mm;
-    max-width: 150px;
-  }
-
-  .hero, .form-group, button, input, select, label {
-    display: none !important;
-  }
-
-  .card {
-    background: white;
-    box-shadow: none;
-    border: 0.5pt solid #ddd;
-    page-break-inside: avoid;
-    margin-bottom: 1rem;
-    padding: 1rem;
-  }
-
-  h2 {
-    color: #1fb6ff;
-    font-size: 14pt;
-  }
-
-  table {
-    font-size: 9pt;
-  }
-
-  th {
-    background: #f8f9fa;
-    color: #000;
-  }
-
-  tr:hover {
-    background: transparent;
-  }
-
-  .badge {
-    border: 1pt solid #1fb6ff;
-  }
-}
-
-@media screen {
-  .screen-only {
-    display: block;
-  }
-}
-</style>
-</head>
-<body>
-
-<!-- PRINT HEADER (print only) -->
-<div id="printHeader">
-  <div class="print-left">
-    <img id="printBlueLogo" src="" alt="Blue Aruba Rentals" style="display:none;">
-    <span id="printBlueLogoText" style="font-size:18pt;font-weight:700;color:#1fb6ff;">Blue Aruba Rentals</span>
-    <span id="printBlueWebsite" style="font-size:10pt;color:#666;"></span>
-  </div>
-  <div class="print-right">
-    <img id="printRealtorLogo" src="" alt="" style="display:none;">
-    <div class="realtor-info">
-      <div id="printRealtorName" style="font-weight:700;"></div>
-      <div id="printRealtorCompany" style="font-size:9pt;color:#666;"></div>
-      <div id="printRealtorLicense" style="font-size:9pt;color:#666;"></div>
-      <div id="printRealtorContact" style="font-size:9pt;color:#666;"></div>
-    </div>
-  </div>
-</div>
-
-<div class="container">
-
-<!-- HERO (screen only) -->
-<div class="hero screen-only">
-  <div class="hero-stat">
-    <div class="label">Est. Annual Revenue</div>
-    <div class="value" id="heroRev">$0</div>
-  </div>
-  <div class="hero-stat">
-    <div class="label">Net Owner Income</div>
-    <div class="value" id="heroNet">$0</div>
-  </div>
-  <div class="hero-stat">
-    <div class="label">Cap Rate</div>
-    <div class="value" id="heroCap">0%</div>
-  </div>
-  <div class="hero-stat">
-    <div class="label">Breakeven Occupancy</div>
-    <div class="value" id="heroBreak">0%</div>
-  </div>
-</div>
-
-<!-- PROPERTY DETAILS (screen only) -->
-<div class="card screen-only">
-  <h2>Property Details & Configuration</h2>
-  
-  <h3 style="margin-top:1.5rem;">Branding & Contact</h3>
-  <div class="form-grid">
-    <div class="form-group">
-      <label>Blue Aruba Logo</label>
-      <input type="file" id="blueLogoFile" accept="image/*">
-      <img id="blueLogoPreview" class="logo-preview">
-      <button id="btnClearBlueLogo" class="btn-secondary" style="margin-top:0.5rem;">Clear Logo</button>
-    </div>
-    <div class="form-group">
-      <label>Realtor Logo</label>
-      <input type="file" id="realtorLogoFile" accept="image/*">
-      <img id="realtorLogoPreview" class="logo-preview">
-      <button id="btnClearRealtorLogo" class="btn-secondary" style="margin-top:0.5rem;">Clear Logo</button>
-    </div>
-    <div class="form-group">
-      <label>Website</label>
-      <input type="text" id="blueWebsite" value="www.bluearuba.com">
-    </div>
-  </div>
-  
-  <div class="form-grid" style="margin-top:1rem;">
-    <div class="form-group">
-      <label>Realtor Name</label>
-      <input type="text" id="realtorName" placeholder="Jane Doe">
-    </div>
-    <div class="form-group">
-      <label>Company</label>
-      <input type="text" id="realtorCompany" placeholder="Aruba Realty Group">
-    </div>
-    <div class="form-group">
-      <label>License</label>
-      <input type="text" id="realtorLicense" placeholder="License #12345">
-    </div>
-    <div class="form-group">
-      <label>Phone</label>
-      <input type="text" id="realtorPhone" placeholder="+297 123 4567">
-    </div>
-    <div class="form-group">
-      <label>Email</label>
-      <input type="email" id="realtorEmail" placeholder="jane@example.com">
-    </div>
-    <div class="form-group">
-      <label>Realtor Website</label>
-      <input type="text" id="realtorWebsite" placeholder="www.realtor.com">
-    </div>
-  </div>
-
-  <h3 style="margin-top:1.5rem;">Property & Financing</h3>
-  <div class="form-grid">
-    <div class="form-group">
-      <label>Currency</label>
-      <div class="currency-toggle" id="currencyToggle">
-        <button data-currency="USD" class="active">USD</button>
-        <button data-currency="AWG">AWG</button>
-      </div>
-    </div>
-    <div class="form-group">
-      <label>Listing/Purchase Price</label>
-      <input type="number" id="priceInput" value="650000" step="1000">
-    </div>
-    <div class="form-group">
-      <label>Total Investment (leave blank = Price)</label>
-      <input type="number" id="totalInvInput" placeholder="Leave blank to use price" step="1000">
-    </div>
-    <div class="form-group">
-      <label>Property Type</label>
-      <select id="propType">
-        <option value="Condo">Condo</option>
-        <option value="Villa">Villa</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label>Bedrooms</label>
-      <input type="number" id="beds" value="2" min="1" max="10">
-    </div>
-    <div class="form-group">
-      <label>Bathrooms</label>
-      <input type="number" id="baths" value="2" min="1" max="10" step="0.5">
-    </div>
-  </div>
-
-  <div class="form-grid" style="margin-top:1rem;">
-    <div class="form-group">
-      <label>Financing Mode</label>
-      <select id="financingMode">
-        <option value="BANK">BANK</option>
-        <option value="CASH">CASH</option>
-      </select>
-    </div>
-    <div class="form-group" id="ltvGroup">
-      <label>LTV %</label>
-      <input type="number" id="ltvPct" value="60" min="5" max="95" step="1">
-    </div>
-    <div class="form-group" id="downPctGroup">
-      <label>Down Payment %</label>
-      <input type="number" id="downPct" value="40" min="5" max="95" step="1">
-    </div>
-    <div class="form-group" id="rateGroup">
-      <label>Interest Rate %</label>
-      <input type="number" id="ratePct" value="8" min="0" max="20" step="0.1">
-    </div>
-    <div class="form-group" id="termGroup">
-      <label>Term (Years)</label>
-      <input type="number" id="termYears" value="30" min="1" max="40">
-    </div>
-  </div>
-
-  <div class="form-grid" style="margin-top:1rem;">
-    <div class="form-group">
-      <label>Down Payment Amount</label>
-      <input type="text" id="downAmtView" readonly style="background:var(--card);">
-    </div>
-    <div class="form-group">
-      <label>Loan Amount</label>
-      <input type="text" id="loanAmtView" readonly style="background:var(--card);">
-    </div>
-  </div>
-
-  <h3 style="margin-top:1.5rem;">Occupancy & Stay</h3>
-  <div class="form-grid">
-    <div class="form-group">
-      <label>Base Occupancy %</label>
-      <input type="number" id="baseOcc" value="59.5" min="0" max="100" step="0.5">
-    </div>
-    <div class="form-group">
-      <label>Average Length of Stay (nights)</label>
-      <input type="number" id="avgLOS" value="5" min="1" max="30">
-    </div>
-  </div>
-
-  <h3 style="margin-top:1.5rem;">Rates & Seasons</h3>
-  <div class="form-grid">
-    <div class="form-group">
-      <label>High Season Nightly Rate</label>
-      <input type="number" id="rateHigh" value="420" step="10">
-    </div>
-    <div class="form-group">
-      <label>Mid Season Nightly Rate</label>
-      <input type="number" id="rateMid" value="320" step="10">
-    </div>
-    <div class="form-group">
-      <label>Low Season Nightly Rate</label>
-      <input type="number" id="rateLow" value="220" step="10">
-    </div>
-    <div class="form-group">
-      <label>Holiday Premium %</label>
-      <input type="number" id="holidayPrem" value="30" min="0" max="100" step="5">
-    </div>
-  </div>
-
-  <div class="form-grid" style="margin-top:1rem;">
-    <div class="form-group">
-      <label>High Season Weeks</label>
-      <input type="number" id="wHigh" value="16" min="0" max="52">
-    </div>
-    <div class="form-group">
-      <label>Mid Season Weeks</label>
-      <input type="number" id="wMid" value="20" min="0" max="52">
-    </div>
-    <div class="form-group">
-      <label>Low Season Weeks</label>
-      <input type="number" id="wLow" value="16" min="0" max="52">
-    </div>
-    <div class="form-group">
-      <label>Holiday Weeks (subset of High)</label>
-      <input type="number" id="wHoliday" value="2" min="0" max="52">
-    </div>
-  </div>
-
-  <h3 style="margin-top:1.5rem;">Fees & HOA</h3>
-  <div class="form-grid">
-    <div class="form-group">
-      <label>OTA Fee %</label>
-      <input type="number" id="otaPct" value="12" min="0" max="30" step="1">
-    </div>
-    <div class="form-group">
-      <label>Management Fee % (fixed)</label>
-      <input type="number" id="mgmtPct" value="20" disabled>
-    </div>
-    <div class="form-group">
-      <label>HOA (Monthly)</label>
-      <input type="number" id="hoaMonthly" value="420" step="10">
-    </div>
-  </div>
-
-  <h3 style="margin-top:1.5rem;">OPEX Overrides (Monthly, 0 = Auto)</h3>
-  <div class="form-grid">
-    <div class="form-group">
-      <label>Maintenance</label>
-      <input type="number" id="opxMaint" value="0" min="0" step="10">
-    </div>
-    <div class="form-group">
-      <label>Cleaning (per stay)</label>
-      <input type="number" id="opxClean" value="0" min="0" step="5">
-    </div>
-    <div class="form-group">
-      <label>Electricity</label>
-      <input type="number" id="opxElec" value="0" min="0" step="10">
-    </div>
-    <div class="form-group">
-      <label>Water</label>
-      <input type="number" id="opxWater" value="0" min="0" step="5">
-    </div>
-    <div class="form-group">
-      <label>Internet/Cable</label>
-      <input type="number" id="opxNet" value="0" min="0" step="5">
-    </div>
-    <div class="form-group">
-      <label>Insurance</label>
-      <input type="number" id="opxIns" value="0" min="0" step="10">
-    </div>
-    <div class="form-group">
-      <label>Repairs Reserve</label>
-      <input type="number" id="opxRes" value="0" min="0" step="10">
-    </div>
-    <div class="form-group">
-      <label>Gov Taxes/Permits</label>
-      <input type="number" id="opxGov" value="0" min="0" step="10">
-    </div>
-  </div>
-
-  <div class="actions" style="margin-top:1.5rem;">
-    <button id="btnCalc">🧮 Calculate ROI</button>
-    <button id="btnPrint" class="btn-secondary">🖨️ Print Report</button>
-    <button id="btnReset" class="btn-danger">🔄 Reset</button>
-  </div>
-</div>
-
-<!-- MORTGAGE & CLOSING -->
-<div class="card">
-  <h2>Mortgage & Closing Costs</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Item</th>
-        <th class="text-right">Amount</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Listing Price</td>
-        <td class="text-right" id="mOutPrice">$0</td>
-      </tr>
-      <tr>
-        <td>Down Payment</td>
-        <td class="text-right" id="mOutDown">$0</td>
-      </tr>
-      <tr id="rowLoan">
-        <td>Loan Amount</td>
-        <td class="text-right" id="mOutLoan">$0</td>
-      </tr>
-      <tr>
-        <td>Transfer Tax (3% first Afl 250k + 6% above)</td>
-        <td class="text-right" id="mOutTax">$0</td>
-      </tr>
-      <tr>
-        <td>Notary (Transfer) ~1%</td>
-        <td class="text-right" id="mOutNotary">$0</td>
-      </tr>
-      <tr id="rowBankFee">
-        <td>Bank Closing Fee ~1%</td>
-        <td class="text-right" id="mOutBankFee">$0</td>
-      </tr>
-      <tr id="rowMortNotary">
-        <td>Notary (Mortgage) ~1%</td>
-        <td class="text-right" id="mOutMortNotary">$0</td>
-      </tr>
-      <tr class="bold">
-        <td>Total Cash at Closing</td>
-        <td class="text-right" id="mOutTotal">$0</td>
-      </tr>
-      <tr id="rowPmt">
-        <td>Monthly P&I Payment</td>
-        <td class="text-right" id="mOutPmt">$0</td>
-      </tr>
-      <tr id="rowAllIn">
-        <td>All-in Cost (Price + Closing)</td>
-        <td class="text-right" id="mOutAllIn">$0</td>
-      </tr>
-    </tbody>
-  </table>
-  <p id="mConversion" style="margin-top:1rem;font-size:0.875rem;color:var(--muted);"></p>
-</div>
-
-<!-- KPIS -->
-<div class="card">
-  <h2>Key Performance Indicators (Base Case)</h2>
-  <div class="kpi-grid">
-    <div class="kpi-card">
-      <div class="kpi-label">Total Revenue</div>
-      <div class="kpi-value" id="kpiTotalRev">$0</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Net After OTA</div>
-      <div class="kpi-value" id="kpiNetOTA">$0</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Owner Gross (Pre-OPEX)</div>
-      <div class="kpi-value" id="kpiOwnerGross">$0</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Total OPEX</div>
-      <div class="kpi-value" id="kpiTotalOPEX">$0</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Owner Net Income</div>
-      <div class="kpi-value" id="kpiOwnerNet">$0</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Cap Rate / ROI</div>
-      <div class="kpi-value" id="kpiCapRate">0%</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">ADR (Net)</div>
-      <div class="kpi-value" id="kpiADR">$0</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">RevPAR (Net)</div>
-      <div class="kpi-value" id="kpiRevPAR">$0</div>
-    </div>
-  </div>
-  <div style="margin-top:1.5rem;">
-    <h3>Breakeven Occupancy</h3>
-    <p style="font-size:1.25rem;margin:0.5rem 0;"><span class="badge badge-warning" id="breakeven">0%</span></p>
-    <div class="progress-bar">
-      <div class="progress-fill" id="breakevenBar" style="width:0%;">0%</div>
-    </div>
-  </div>
-</div>
-
-<!-- REVENUE BREAKDOWN -->
-<div class="card">
-  <h2>Revenue Breakdown (Base Case)</h2>
-  <p><span class="badge" id="occBadge">0% Occupancy</span></p>
-  <div class="chart-container" id="revenueChart"></div>
-  <table>
-    <thead>
-      <tr>
-        <th>Season</th>
-        <th class="text-right">Nights Sold</th>
-        <th class="text-right">Revenue</th>
-      </tr>
-    </thead>
-    <tbody id="revenueTableBody"></tbody>
-  </table>
-</div>
-
-<!-- OPEX DISTRIBUTION -->
-<div class="card">
-  <h2>OPEX Distribution</h2>
-  <div class="chart-container" id="opexChart"></div>
-</div>
-
-<!-- CASH FLOW WATERFALL -->
-<div class="card">
-  <h2>Cash Flow Waterfall (Base Case)</h2>
-  <div class="chart-container" id="waterfallChart"></div>
-  <table style="margin-top:1rem;">
-    <thead>
-      <tr>
-        <th>Item</th>
-        <th class="text-right">Amount</th>
-      </tr>
-    </thead>
-    <tbody id="waterfallTableBody"></tbody>
-  </table>
-</div>
-
-<!-- OCCUPANCY SCENARIO ANALYSIS -->
-<div class="card">
-  <h2>Occupancy Scenario Analysis</h2>
-  <div style="overflow-x:auto;">
-    <table id="scenarioTable">
-      <thead>
-        <tr>
-          <th>Occupancy</th>
-          <th class="text-right">Room Revenue</th>
-          <th class="text-right">Net After OTA</th>
-          <th class="text-right">Owner Gross</th>
-          <th class="text-right">Total OPEX</th>
-          <th class="text-right">Owner Net</th>
-          <th class="text-right">ROI</th>
-          <th class="text-right">Cap Rate</th>
-        </tr>
-      </thead>
-      <tbody id="scenarioTableBody"></tbody>
-    </table>
-  </div>
-</div>
-
-<!-- SENSITIVITY TORNADO -->
-<div class="card">
-  <h2>Sensitivity Analysis (Tornado Chart)</h2>
-  <p style="font-size:0.875rem;color:var(--muted);margin-bottom:1rem;">Impact of ±20% change on Owner Net Income</p>
-  <div class="chart-container" id="sensitivityChart"></div>
-</div>
-
-<!-- DETAILED OPEX -->
-<div class="card">
-  <h2>Detailed OPEX Breakdown</h2>
-  <table id="opexDetailTable">
-    <thead>
-      <tr>
-        <th>Category</th>
-        <th class="text-right">Monthly</th>
-        <th class="text-right">Annual</th>
-        <th class="text-right">% of Total</th>
-      </tr>
-    </thead>
-    <tbody id="opexDetailTableBody"></tbody>
-    <tfoot>
-      <tr class="bold">
-        <td>TOTAL</td>
-        <td class="text-right" id="opexTotalMonthly">$0</td>
-        <td class="text-right" id="opexTotalAnnual">$0</td>
-        <td class="text-right">100%</td>
-      </tr>
-    </tfoot>
-  </table>
-</div>
-
-<!-- 10-YEAR PROJECTION -->
-<div class="card">
-  <h2>10-Year Cash Flow Projection</h2>
-  <div class="form-group screen-only" style="max-width:300px;margin-bottom:1rem;">
-    <label>Annual Appreciation %</label>
-    <input type="number" id="appreciation" value="3" min="0" max="20" step="0.5">
-    <p style="margin-top:0.5rem;"><span class="badge" id="appreciation-badge">3% Annual Growth</span></p>
-  </div>
-  <p style="font-size:0.875rem;color:var(--muted);margin-bottom:1rem;">
-    Base occupancy: 60% • OPEX inflation: 2.5%/yr • Rates appreciate with property value
-  </p>
-  <div class="kpi-grid" style="margin-bottom:1.5rem;">
-    <div class="kpi-card">
-      <div class="kpi-label">Total Net Income (10Y)</div>
-      <div class="kpi-value" id="summary10Net">$0</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Property Value Y10</div>
-      <div class="kpi-value" id="summary10Value">$0</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Total ROI (10Y)</div>
-      <div class="kpi-value" id="summary10ROI">0%</div>
-    </div>
-  </div>
-  <div class="chart-container" id="yearChart"></div>
-  <div style="overflow-x:auto;">
-    <table id="yearTable">
-      <thead id="yearTableHead"></thead>
-      <tbody id="yearTableBody"></tbody>
-    </table>
-  </div>
-</div>
-
-</div>
-
-<script>
-// ===== STATE =====
+/**
+ * Blue Aruba ROI Calculator
+ * Professional tool for calculating return on investment for rental properties
+ */
+
+// ===== CONSTANTS =====
 const AWG_PER_USD = 1.79;
+const MANAGEMENT_FEE_PCT = 20; // Fixed management fee percentage
+const TOTAL_WEEKS_PER_YEAR = 52;
+const DAYS_PER_WEEK = 7;
+const DAYS_PER_YEAR = 365;
+const MONTHS_PER_YEAR = 12;
 
+// Default OPEX values (annual in USD)
+const DEFAULTS = {
+  VILLA_MAINTENANCE: 2800,
+  CONDO_MAINTENANCE: 1800,
+  VILLA_ELECTRICITY_MONTHLY: 650,
+  CONDO_ELECTRICITY_MONTHLY: 400,
+  VILLA_WATER_MONTHLY: 120,
+  CONDO_WATER_MONTHLY: 70,
+  INTERNET_MONTHLY: 85,
+  VILLA_INSURANCE_MONTHLY: 200,
+  CONDO_INSURANCE_MONTHLY: 100,
+  VILLA_CLEANING: 150,
+  CONDO_CLEANING: 85,
+  GOV_TAXES_ANNUAL: 1000,
+  PROPERTY_RESERVE_RATE: 0.005, // 0.5% of property value
+  VILLA_SIZE_MULTIPLIER: 1.25,
+  CONDO_SIZE_MULTIPLIER: 1.0,
+  OPEX_INFLATION: 0.025, // 2.5% annual
+  UTILITY_MULTIPLIER: 0.9
+};
+
+// Transfer tax rates (Aruba specific)
+const TRANSFER_TAX = {
+  FIRST_TIER_LIMIT: 250000, // AWG
+  FIRST_TIER_RATE: 0.03,    // 3%
+  SECOND_TIER_RATE: 0.06    // 6%
+};
+
+// ===== STATE =====
 const STATE = {
   // Currency
   currency: 'USD',
@@ -924,6 +50,10 @@ const STATE = {
   propType: 'Condo',
   beds: 2,
   baths: 2,
+  propertyName: '',
+  propertyAddress: '',
+  studios: 0,
+  apartments: 0,
   
   // Occupancy
   baseOcc: 59.5,
@@ -943,7 +73,7 @@ const STATE = {
   
   // Fees
   otaPct: 12,
-  mgmtPct: 20,
+  mgmtPct: MANAGEMENT_FEE_PCT,
   hoaMonthly: 420,
   
   // OPEX overrides (monthly, 0=auto)
@@ -975,236 +105,507 @@ const STATE = {
   realtorWebsite: ''
 };
 
+// ===== DOM ELEMENT CACHE =====
+const DOM = {};
+
+/**
+ * Cache frequently accessed DOM elements for better performance
+ */
+function cacheDOMElements() {
+  // Hero stats
+  DOM.heroRev = document.getElementById('heroRev');
+  DOM.heroNet = document.getElementById('heroNet');
+  DOM.heroCap = document.getElementById('heroCap');
+  DOM.heroBreak = document.getElementById('heroBreak');
+  
+  // Currency toggle
+  DOM.currencyToggle = document.getElementById('currencyToggle');
+  
+  // Input elements
+  DOM.priceInput = document.getElementById('priceInput');
+  DOM.totalInvInput = document.getElementById('totalInvInput');
+  DOM.propType = document.getElementById('propType');
+  DOM.beds = document.getElementById('beds');
+  DOM.baths = document.getElementById('baths');
+  DOM.propertyName = document.getElementById('propertyName');
+  DOM.propertyAddress = document.getElementById('propertyAddress');
+  DOM.studios = document.getElementById('studios');
+  DOM.apartments = document.getElementById('apartments');
+  
+  // Print property summary elements
+  DOM.printPropertyName = document.getElementById('printPropertyName');
+  DOM.printPropertyAddress = document.getElementById('printPropertyAddress');
+  DOM.printPropertyType = document.getElementById('printPropertyType');
+  DOM.printBedrooms = document.getElementById('printBedrooms');
+  DOM.printBathrooms = document.getElementById('printBathrooms');
+  DOM.printExtraSpaces = document.getElementById('printExtraSpaces');
+  DOM.printExtraSpacesItem = document.getElementById('printExtraSpacesItem');
+  
+  // Financing
+  DOM.financingMode = document.getElementById('financingMode');
+  DOM.ltvPct = document.getElementById('ltvPct');
+  DOM.downPct = document.getElementById('downPct');
+  DOM.ratePct = document.getElementById('ratePct');
+  DOM.termYears = document.getElementById('termYears');
+  DOM.downAmtView = document.getElementById('downAmtView');
+  DOM.loanAmtView = document.getElementById('loanAmtView');
+  
+  // Display groups
+  DOM.ltvGroup = document.getElementById('ltvGroup');
+  DOM.downPctGroup = document.getElementById('downPctGroup');
+  DOM.rateGroup = document.getElementById('rateGroup');
+  DOM.termGroup = document.getElementById('termGroup');
+  
+  // Occupancy
+  DOM.baseOcc = document.getElementById('baseOcc');
+  DOM.avgLOS = document.getElementById('avgLOS');
+  
+  // Rates
+  DOM.rateHigh = document.getElementById('rateHigh');
+  DOM.rateMid = document.getElementById('rateMid');
+  DOM.rateLow = document.getElementById('rateLow');
+  DOM.holidayPrem = document.getElementById('holidayPrem');
+  
+  // Seasons
+  DOM.wHigh = document.getElementById('wHigh');
+  DOM.wMid = document.getElementById('wMid');
+  DOM.wLow = document.getElementById('wLow');
+  DOM.wHoliday = document.getElementById('wHoliday');
+  
+  // Fees
+  DOM.otaPct = document.getElementById('otaPct');
+  DOM.hoaMonthly = document.getElementById('hoaMonthly');
+  
+  // OPEX
+  DOM.opxMaint = document.getElementById('opxMaint');
+  DOM.opxClean = document.getElementById('opxClean');
+  DOM.opxElec = document.getElementById('opxElec');
+  DOM.opxWater = document.getElementById('opxWater');
+  DOM.opxNet = document.getElementById('opxNet');
+  DOM.opxIns = document.getElementById('opxIns');
+  DOM.opxRes = document.getElementById('opxRes');
+  DOM.opxGov = document.getElementById('opxGov');
+  
+  // Branding
+  DOM.blueWebsite = document.getElementById('blueWebsite');
+  DOM.realtorName = document.getElementById('realtorName');
+  DOM.realtorCompany = document.getElementById('realtorCompany');
+  DOM.realtorLicense = document.getElementById('realtorLicense');
+  DOM.realtorPhone = document.getElementById('realtorPhone');
+  DOM.realtorEmail = document.getElementById('realtorEmail');
+  DOM.realtorWebsite = document.getElementById('realtorWebsite');
+  
+  // Logo handling
+  DOM.blueLogoFile = document.getElementById('blueLogoFile');
+  DOM.realtorLogoFile = document.getElementById('realtorLogoFile');
+  DOM.blueLogoPreview = document.getElementById('blueLogoPreview');
+  DOM.realtorLogoPreview = document.getElementById('realtorLogoPreview');
+  DOM.btnClearBlueLogo = document.getElementById('btnClearBlueLogo');
+  DOM.btnClearRealtorLogo = document.getElementById('btnClearRealtorLogo');
+  
+  // Buttons
+  DOM.btnCalc = document.getElementById('btnCalc');
+  DOM.btnPrint = document.getElementById('btnPrint');
+  DOM.btnReset = document.getElementById('btnReset');
+  
+  // Appreciation
+  DOM.appreciation = document.getElementById('appreciation');
+  DOM.appreciationBadge = document.getElementById('appreciation-badge');
+}
+
+// ===== UTILITY FUNCTIONS =====
+
+/**
+ * Safely parse a float value with fallback
+ * @param {string|number} value - Value to parse
+ * @param {number} defaultValue - Default value if parsing fails
+ * @returns {number} Parsed value or default
+ */
+function safeParseFloat(value, defaultValue = 0) {
+  const parsed = parseFloat(value);
+  return isNaN(parsed) ? defaultValue : parsed;
+}
+
+/**
+ * Clamp a number between min and max values
+ * @param {number} value - Value to clamp
+ * @param {number} min - Minimum value
+ * @param {number} max - Maximum value
+ * @returns {number} Clamped value
+ */
+function clamp(value, min, max) {
+  return Math.max(min, Math.min(max, value));
+}
+
 // ===== FORMATTERS =====
 const fmt = {
+  /**
+   * Format a number as currency
+   * @param {number} val - Value to format
+   * @param {string} currency - Currency code (USD or AWG)
+   * @returns {string} Formatted currency string
+   */
   money: (val, currency) => {
     const sym = currency === 'AWG' ? 'Afl ' : '$';
     return sym + Math.round(val).toLocaleString();
   },
+  
+  /**
+   * Format a number as percentage
+   * @param {number} val - Value to format
+   * @param {number} decimals - Number of decimal places
+   * @returns {string} Formatted percentage string
+   */
   pct: (val, decimals = 1) => val.toFixed(decimals) + '%',
+  
+  /**
+   * Format a number
+   * @param {number} val - Value to format
+   * @param {number} decimals - Number of decimal places
+   * @returns {string} Formatted number string
+   */
   num: (val, decimals = 0) => val.toFixed(decimals)
 };
 
+/**
+ * Convert USD value to specified currency
+ * @param {number} usdVal - Value in USD
+ * @param {string} currency - Target currency
+ * @returns {number} Converted value
+ */
 function toCur(usdVal, currency) {
   return currency === 'AWG' ? usdVal * AWG_PER_USD : usdVal;
 }
 
+/**
+ * Convert value from specified currency to USD
+ * @param {number} val - Value in currency
+ * @param {string} currency - Source currency
+ * @returns {number} Value in USD
+ */
 function fromCur(val, currency) {
   return currency === 'AWG' ? val / AWG_PER_USD : val;
 }
 
-// ===== BINDINGS =====
+// ===== EVENT BINDINGS =====
+
+/**
+ * Bind all input event listeners
+ * Uses cached DOM elements and validates all inputs
+ */
 function bindInputs() {
-  // Currency toggle
-  document.querySelectorAll('#currencyToggle button').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const newCur = btn.dataset.currency;
-      if (newCur === STATE.currency) return;
-      
-      // Convert all monetary values
-      const ratio = newCur === 'AWG' ? AWG_PER_USD : 1/AWG_PER_USD;
-      STATE.price *= ratio;
-      if (STATE.totalInv) STATE.totalInv *= ratio;
-      STATE.rateHigh *= ratio;
-      STATE.rateMid *= ratio;
-      STATE.rateLow *= ratio;
-      STATE.hoaMonthly *= ratio;
-      
-      // OPEX overrides
-      if (STATE.opxMaint > 0) STATE.opxMaint *= ratio;
-      if (STATE.opxClean > 0) STATE.opxClean *= ratio;
-      if (STATE.opxElec > 0) STATE.opxElec *= ratio;
-      if (STATE.opxWater > 0) STATE.opxWater *= ratio;
-      if (STATE.opxNet > 0) STATE.opxNet *= ratio;
-      if (STATE.opxIns > 0) STATE.opxIns *= ratio;
-      if (STATE.opxRes > 0) STATE.opxRes *= ratio;
-      if (STATE.opxGov > 0) STATE.opxGov *= ratio;
-      
-      STATE.currency = newCur;
-      syncInputsToState();
-      document.querySelectorAll('#currencyToggle button').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      calculate();
+  // Currency toggle - use event delegation
+  DOM.currencyToggle.addEventListener('click', (e) => {
+    const btn = e.target.closest('button');
+    if (!btn) return;
+    
+    const newCur = btn.dataset.currency;
+    if (newCur === STATE.currency) return;
+    
+    // Update aria-pressed attributes
+    DOM.currencyToggle.querySelectorAll('button').forEach(b => {
+      b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+      b.classList.toggle('active', b === btn);
     });
+    
+    // Convert all monetary values
+    const ratio = newCur === 'AWG' ? AWG_PER_USD : 1 / AWG_PER_USD;
+    STATE.price *= ratio;
+    if (STATE.totalInv) STATE.totalInv *= ratio;
+    STATE.rateHigh *= ratio;
+    STATE.rateMid *= ratio;
+    STATE.rateLow *= ratio;
+    STATE.hoaMonthly *= ratio;
+    
+    // OPEX overrides
+    if (STATE.opxMaint > 0) STATE.opxMaint *= ratio;
+    if (STATE.opxClean > 0) STATE.opxClean *= ratio;
+    if (STATE.opxElec > 0) STATE.opxElec *= ratio;
+    if (STATE.opxWater > 0) STATE.opxWater *= ratio;
+    if (STATE.opxNet > 0) STATE.opxNet *= ratio;
+    if (STATE.opxIns > 0) STATE.opxIns *= ratio;
+    if (STATE.opxRes > 0) STATE.opxRes *= ratio;
+    if (STATE.opxGov > 0) STATE.opxGov *= ratio;
+    
+    STATE.currency = newCur;
+    syncInputsToState();
+    calculate();
   });
   
-  // Property inputs
-  document.getElementById('priceInput').addEventListener('input', e => {
-    STATE.price = parseFloat(e.target.value) || 0;
+  // Property inputs with validation
+  DOM.priceInput.addEventListener('input', e => {
+    STATE.price = safeParseFloat(e.target.value, 0);
     updateDerivedAmounts();
   });
-  document.getElementById('totalInvInput').addEventListener('input', e => {
-    STATE.totalInv = e.target.value ? parseFloat(e.target.value) : null;
+  
+  DOM.totalInvInput.addEventListener('input', e => {
+    STATE.totalInv = e.target.value ? safeParseFloat(e.target.value, null) : null;
   });
-  document.getElementById('propType').addEventListener('change', e => STATE.propType = e.target.value);
-  document.getElementById('beds').addEventListener('input', e => STATE.beds = parseFloat(e.target.value) || 2);
-  document.getElementById('baths').addEventListener('input', e => STATE.baths = parseFloat(e.target.value) || 2);
+  
+  DOM.propType.addEventListener('change', e => {
+    STATE.propType = e.target.value;
+  });
+  
+  DOM.beds.addEventListener('input', e => {
+    STATE.beds = safeParseFloat(e.target.value, 2);
+  });
+  
+  DOM.baths.addEventListener('input', e => {
+    STATE.baths = safeParseFloat(e.target.value, 2);
+  });
+  
+  DOM.propertyName.addEventListener('input', e => {
+    STATE.propertyName = e.target.value;
+  });
+  
+  DOM.propertyAddress.addEventListener('input', e => {
+    STATE.propertyAddress = e.target.value;
+  });
+  
+  DOM.studios.addEventListener('input', e => {
+    STATE.studios = safeParseFloat(e.target.value, 0);
+  });
+  
+  DOM.apartments.addEventListener('input', e => {
+    STATE.apartments = safeParseFloat(e.target.value, 0);
+  });
   
   // Financing
-  document.getElementById('financingMode').addEventListener('change', e => {
+  DOM.financingMode.addEventListener('change', e => {
     STATE.financingMode = e.target.value;
     updateFinancingUI();
     updateDerivedAmounts();
   });
-  document.getElementById('ltvPct').addEventListener('input', e => {
-    let ltv = parseFloat(e.target.value) || 60;
-    ltv = Math.max(5, Math.min(95, ltv));
+  
+  DOM.ltvPct.addEventListener('input', e => {
+    let ltv = safeParseFloat(e.target.value, 60);
+    ltv = clamp(ltv, 5, 95);
     STATE.ltvPct = ltv;
     STATE.downPct = 100 - ltv;
-    document.getElementById('ltvPct').value = ltv;
-    document.getElementById('downPct').value = STATE.downPct;
+    DOM.ltvPct.value = ltv;
+    DOM.downPct.value = STATE.downPct;
     updateDerivedAmounts();
   });
-  document.getElementById('downPct').addEventListener('input', e => {
-    let down = parseFloat(e.target.value) || 40;
-    down = Math.max(5, Math.min(95, down));
+  
+  DOM.downPct.addEventListener('input', e => {
+    let down = safeParseFloat(e.target.value, 40);
+    down = clamp(down, 5, 95);
     STATE.downPct = down;
     STATE.ltvPct = 100 - down;
-    document.getElementById('downPct').value = down;
-    document.getElementById('ltvPct').value = STATE.ltvPct;
+    DOM.downPct.value = down;
+    DOM.ltvPct.value = STATE.ltvPct;
     updateDerivedAmounts();
   });
-  document.getElementById('ratePct').addEventListener('input', e => STATE.ratePct = parseFloat(e.target.value) || 8);
-  document.getElementById('termYears').addEventListener('input', e => STATE.termYears = parseFloat(e.target.value) || 30);
+  
+  DOM.ratePct.addEventListener('input', e => {
+    STATE.ratePct = safeParseFloat(e.target.value, 8);
+  });
+  
+  DOM.termYears.addEventListener('input', e => {
+    STATE.termYears = safeParseFloat(e.target.value, 30);
+  });
   
   // Occupancy
-  document.getElementById('baseOcc').addEventListener('input', e => STATE.baseOcc = parseFloat(e.target.value) || 59.5);
-  document.getElementById('avgLOS').addEventListener('input', e => STATE.avgLOS = parseFloat(e.target.value) || 5);
+  DOM.baseOcc.addEventListener('input', e => {
+    STATE.baseOcc = safeParseFloat(e.target.value, 59.5);
+  });
+  
+  DOM.avgLOS.addEventListener('input', e => {
+    STATE.avgLOS = safeParseFloat(e.target.value, 5);
+  });
   
   // Rates
-  document.getElementById('rateHigh').addEventListener('input', e => STATE.rateHigh = parseFloat(e.target.value) || 420);
-  document.getElementById('rateMid').addEventListener('input', e => STATE.rateMid = parseFloat(e.target.value) || 320);
-  document.getElementById('rateLow').addEventListener('input', e => STATE.rateLow = parseFloat(e.target.value) || 220);
-  document.getElementById('holidayPrem').addEventListener('input', e => STATE.holidayPrem = parseFloat(e.target.value) || 30);
+  DOM.rateHigh.addEventListener('input', e => {
+    STATE.rateHigh = safeParseFloat(e.target.value, 420);
+  });
+  
+  DOM.rateMid.addEventListener('input', e => {
+    STATE.rateMid = safeParseFloat(e.target.value, 320);
+  });
+  
+  DOM.rateLow.addEventListener('input', e => {
+    STATE.rateLow = safeParseFloat(e.target.value, 220);
+  });
+  
+  DOM.holidayPrem.addEventListener('input', e => {
+    STATE.holidayPrem = safeParseFloat(e.target.value, 30);
+  });
   
   // Seasons - auto-normalize
-  ['wHigh','wMid','wLow','wHoliday'].forEach(key => {
-    document.getElementById(key).addEventListener('input', e => {
-      STATE[key] = parseFloat(e.target.value) || 0;
+  [DOM.wHigh, DOM.wMid, DOM.wLow, DOM.wHoliday].forEach((input, idx) => {
+    const keys = ['wHigh', 'wMid', 'wLow', 'wHoliday'];
+    input.addEventListener('input', e => {
+      STATE[keys[idx]] = safeParseFloat(e.target.value, 0);
       normalizeWeeks();
     });
   });
   
   // Fees
-  document.getElementById('otaPct').addEventListener('input', e => STATE.otaPct = parseFloat(e.target.value) || 12);
-  document.getElementById('hoaMonthly').addEventListener('input', e => STATE.hoaMonthly = parseFloat(e.target.value) || 420);
+  DOM.otaPct.addEventListener('input', e => {
+    STATE.otaPct = safeParseFloat(e.target.value, 12);
+  });
+  
+  DOM.hoaMonthly.addEventListener('input', e => {
+    STATE.hoaMonthly = safeParseFloat(e.target.value, 420);
+  });
   
   // OPEX overrides
-  document.getElementById('opxMaint').addEventListener('input', e => STATE.opxMaint = parseFloat(e.target.value) || 0);
-  document.getElementById('opxClean').addEventListener('input', e => STATE.opxClean = parseFloat(e.target.value) || 0);
-  document.getElementById('opxElec').addEventListener('input', e => STATE.opxElec = parseFloat(e.target.value) || 0);
-  document.getElementById('opxWater').addEventListener('input', e => STATE.opxWater = parseFloat(e.target.value) || 0);
-  document.getElementById('opxNet').addEventListener('input', e => STATE.opxNet = parseFloat(e.target.value) || 0);
-  document.getElementById('opxIns').addEventListener('input', e => STATE.opxIns = parseFloat(e.target.value) || 0);
-  document.getElementById('opxRes').addEventListener('input', e => STATE.opxRes = parseFloat(e.target.value) || 0);
-  document.getElementById('opxGov').addEventListener('input', e => STATE.opxGov = parseFloat(e.target.value) || 0);
+  DOM.opxMaint.addEventListener('input', e => {
+    STATE.opxMaint = safeParseFloat(e.target.value, 0);
+  });
+  
+  DOM.opxClean.addEventListener('input', e => {
+    STATE.opxClean = safeParseFloat(e.target.value, 0);
+  });
+  
+  DOM.opxElec.addEventListener('input', e => {
+    STATE.opxElec = safeParseFloat(e.target.value, 0);
+  });
+  
+  DOM.opxWater.addEventListener('input', e => {
+    STATE.opxWater = safeParseFloat(e.target.value, 0);
+  });
+  
+  DOM.opxNet.addEventListener('input', e => {
+    STATE.opxNet = safeParseFloat(e.target.value, 0);
+  });
+  
+  DOM.opxIns.addEventListener('input', e => {
+    STATE.opxIns = safeParseFloat(e.target.value, 0);
+  });
+  
+  DOM.opxRes.addEventListener('input', e => {
+    STATE.opxRes = safeParseFloat(e.target.value, 0);
+  });
+  
+  DOM.opxGov.addEventListener('input', e => {
+    STATE.opxGov = safeParseFloat(e.target.value, 0);
+  });
   
   // Branding
-  document.getElementById('blueWebsite').addEventListener('input', e => {
+  DOM.blueWebsite.addEventListener('input', e => {
     STATE.blueWebsite = e.target.value;
     syncBrandingToPrint();
   });
-  ['realtorName','realtorCompany','realtorLicense','realtorPhone','realtorEmail','realtorWebsite'].forEach(key => {
-    document.getElementById(key).addEventListener('input', e => {
+  
+  const brandingFields = [
+    { dom: DOM.realtorName, key: 'realtorName' },
+    { dom: DOM.realtorCompany, key: 'realtorCompany' },
+    { dom: DOM.realtorLicense, key: 'realtorLicense' },
+    { dom: DOM.realtorPhone, key: 'realtorPhone' },
+    { dom: DOM.realtorEmail, key: 'realtorEmail' },
+    { dom: DOM.realtorWebsite, key: 'realtorWebsite' }
+  ];
+  
+  brandingFields.forEach(({ dom, key }) => {
+    dom.addEventListener('input', e => {
       STATE[key] = e.target.value;
       syncBrandingToPrint();
     });
   });
   
   // Logo uploads
-  document.getElementById('blueLogoFile').addEventListener('change', e => {
+  DOM.blueLogoFile.addEventListener('change', e => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = ev => {
         STATE.blueLogoData = ev.target.result;
-        document.getElementById('blueLogoPreview').src = STATE.blueLogoData;
-        document.getElementById('blueLogoPreview').classList.add('active');
+        DOM.blueLogoPreview.src = STATE.blueLogoData;
+        DOM.blueLogoPreview.classList.add('active');
         syncBrandingToPrint();
       };
       reader.readAsDataURL(file);
     }
   });
-  document.getElementById('realtorLogoFile').addEventListener('change', e => {
+  
+  DOM.realtorLogoFile.addEventListener('change', e => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = ev => {
         STATE.realtorLogoData = ev.target.result;
-        document.getElementById('realtorLogoPreview').src = STATE.realtorLogoData;
-        document.getElementById('realtorLogoPreview').classList.add('active');
+        DOM.realtorLogoPreview.src = STATE.realtorLogoData;
+        DOM.realtorLogoPreview.classList.add('active');
         syncBrandingToPrint();
       };
       reader.readAsDataURL(file);
     }
   });
   
-  document.getElementById('btnClearBlueLogo').addEventListener('click', () => {
+  DOM.btnClearBlueLogo.addEventListener('click', () => {
     STATE.blueLogoData = null;
-    document.getElementById('blueLogoFile').value = '';
-    document.getElementById('blueLogoPreview').classList.remove('active');
+    DOM.blueLogoFile.value = '';
+    DOM.blueLogoPreview.classList.remove('active');
     syncBrandingToPrint();
   });
-  document.getElementById('btnClearRealtorLogo').addEventListener('click', () => {
+  
+  DOM.btnClearRealtorLogo.addEventListener('click', () => {
     STATE.realtorLogoData = null;
-    document.getElementById('realtorLogoFile').value = '';
-    document.getElementById('realtorLogoPreview').classList.remove('active');
+    DOM.realtorLogoFile.value = '';
+    DOM.realtorLogoPreview.classList.remove('active');
     syncBrandingToPrint();
   });
   
   // Actions
-  document.getElementById('btnCalc').addEventListener('click', calculate);
-  document.getElementById('btnPrint').addEventListener('click', () => window.print());
-  document.getElementById('btnReset').addEventListener('click', reset);
+  DOM.btnCalc.addEventListener('click', calculate);
+  DOM.btnPrint.addEventListener('click', () => window.print());
+  DOM.btnReset.addEventListener('click', reset);
   
   // 10Y appreciation
-  document.getElementById('appreciation').addEventListener('input', e => {
-    const val = parseFloat(e.target.value) || 3;
-    document.getElementById('appreciation-badge').textContent = val + '% Annual Growth';
+  DOM.appreciation.addEventListener('input', e => {
+    const val = safeParseFloat(e.target.value, 3);
+    DOM.appreciationBadge.textContent = val + '% Annual Growth';
     calculate();
   });
 }
 
+/**
+ * Sync state values back to form inputs
+ */
 function syncInputsToState() {
-  document.getElementById('priceInput').value = STATE.price;
-  document.getElementById('totalInvInput').value = STATE.totalInv || '';
-  document.getElementById('propType').value = STATE.propType;
-  document.getElementById('beds').value = STATE.beds;
-  document.getElementById('baths').value = STATE.baths;
-  document.getElementById('baseOcc').value = STATE.baseOcc;
-  document.getElementById('avgLOS').value = STATE.avgLOS;
-  document.getElementById('rateHigh').value = STATE.rateHigh;
-  document.getElementById('rateMid').value = STATE.rateMid;
-  document.getElementById('rateLow').value = STATE.rateLow;
-  document.getElementById('holidayPrem').value = STATE.holidayPrem;
-  document.getElementById('wHigh').value = STATE.wHigh;
-  document.getElementById('wMid').value = STATE.wMid;
-  document.getElementById('wLow').value = STATE.wLow;
-  document.getElementById('wHoliday').value = STATE.wHoliday;
-  document.getElementById('otaPct').value = STATE.otaPct;
-  document.getElementById('hoaMonthly').value = STATE.hoaMonthly;
-  document.getElementById('opxMaint').value = STATE.opxMaint;
-  document.getElementById('opxClean').value = STATE.opxClean;
-  document.getElementById('opxElec').value = STATE.opxElec;
-  document.getElementById('opxWater').value = STATE.opxWater;
-  document.getElementById('opxNet').value = STATE.opxNet;
-  document.getElementById('opxIns').value = STATE.opxIns;
-  document.getElementById('opxRes').value = STATE.opxRes;
-  document.getElementById('opxGov').value = STATE.opxGov;
-  document.getElementById('financingMode').value = STATE.financingMode;
-  document.getElementById('ltvPct').value = STATE.ltvPct;
-  document.getElementById('downPct').value = STATE.downPct;
-  document.getElementById('ratePct').value = STATE.ratePct;
-  document.getElementById('termYears').value = STATE.termYears;
+  DOM.priceInput.value = STATE.price;
+  DOM.totalInvInput.value = STATE.totalInv || '';
+  DOM.propType.value = STATE.propType;
+  DOM.beds.value = STATE.beds;
+  DOM.baths.value = STATE.baths;
+  DOM.baseOcc.value = STATE.baseOcc;
+  DOM.avgLOS.value = STATE.avgLOS;
+  DOM.rateHigh.value = STATE.rateHigh;
+  DOM.rateMid.value = STATE.rateMid;
+  DOM.rateLow.value = STATE.rateLow;
+  DOM.holidayPrem.value = STATE.holidayPrem;
+  DOM.wHigh.value = STATE.wHigh;
+  DOM.wMid.value = STATE.wMid;
+  DOM.wLow.value = STATE.wLow;
+  DOM.wHoliday.value = STATE.wHoliday;
+  DOM.otaPct.value = STATE.otaPct;
+  DOM.hoaMonthly.value = STATE.hoaMonthly;
+  DOM.opxMaint.value = STATE.opxMaint;
+  DOM.opxClean.value = STATE.opxClean;
+  DOM.opxElec.value = STATE.opxElec;
+  DOM.opxWater.value = STATE.opxWater;
+  DOM.opxNet.value = STATE.opxNet;
+  DOM.opxIns.value = STATE.opxIns;
+  DOM.opxRes.value = STATE.opxRes;
+  DOM.opxGov.value = STATE.opxGov;
+  DOM.financingMode.value = STATE.financingMode;
+  DOM.ltvPct.value = STATE.ltvPct;
+  DOM.downPct.value = STATE.downPct;
+  DOM.ratePct.value = STATE.ratePct;
+  DOM.termYears.value = STATE.termYears;
   updateFinancingUI();
   updateDerivedAmounts();
 }
 
+/**
+ * Update financing UI visibility based on mode
+ */
 function updateFinancingUI() {
   const isBank = STATE.financingMode === 'BANK';
-  document.getElementById('ltvGroup').style.display = isBank ? 'flex' : 'none';
-  document.getElementById('downPctGroup').style.display = isBank ? 'flex' : 'none';
-  document.getElementById('rateGroup').style.display = isBank ? 'flex' : 'none';
+  DOM.ltvGroup.style.display = isBank ? 'flex' : 'none';
+  DOM.downPctGroup.style.display = isBank ? 'flex' : 'none';
+  DOM.rateGroup.style.display = isBank ? 'flex' : 'none';
   document.getElementById('termGroup').style.display = isBank ? 'flex' : 'none';
   
   // Mortgage output rows
@@ -1269,7 +670,6 @@ function syncBrandingToPrint() {
   document.getElementById('printBlueWebsite').textContent = STATE.blueWebsite;
   document.getElementById('printRealtorName').textContent = STATE.realtorName;
   document.getElementById('printRealtorCompany').textContent = STATE.realtorCompany;
-  document.getElementById('printRealtorLicense').textContent = STATE.realtorLicense;
   
   const contactParts = [STATE.realtorPhone, STATE.realtorEmail, STATE.realtorWebsite].filter(x => x);
   document.getElementById('printRealtorContact').textContent = contactParts.join(' • ');
@@ -1412,8 +812,11 @@ function computeKPIs(occPct) {
   
   const opex = getOPEX();
   const cleaning = getCleaningCost(rev.totalNights);
+  const mort = computeMortgage();
+  const mortgageAnnual = mort.pmt * 12; // Convert monthly payment to annual
+  
   const totalOPEX = opex.maintenance + cleaning + opex.electricity + opex.water + 
-                    opex.internet + opex.insurance + opex.reserve + opex.gov + opex.hoa;
+                    opex.internet + opex.insurance + opex.reserve + opex.gov + opex.hoa + mortgageAnnual;
   
   const ownerNet = ownerGross - totalOPEX;
   
@@ -1426,7 +829,7 @@ function computeKPIs(occPct) {
   
   return {
     totalRev, netAfterOTA, mgmtFee, ownerGross, totalOPEX, ownerNet, capRate, adr, revpar,
-    opex: { ...opex, cleaning }, rev
+    opex: { ...opex, cleaning, mortgage: mortgageAnnual }, rev
   };
 }
 
@@ -1479,6 +882,43 @@ function computeMortgage() {
 }
 
 // ===== RENDERING =====
+/**
+ * Updates the property summary panel for print output
+ */
+function updatePropertySummary() {
+  // Update property name
+  DOM.printPropertyName.textContent = STATE.propertyName || '—';
+  
+  // Update address
+  DOM.printPropertyAddress.textContent = STATE.propertyAddress || '—';
+  
+  // Update property type
+  DOM.printPropertyType.textContent = STATE.propType || '—';
+  
+  // Update bedrooms
+  DOM.printBedrooms.textContent = STATE.beds;
+  
+  // Update bathrooms
+  DOM.printBathrooms.textContent = STATE.baths;
+  
+  // Update extra spaces
+  const extraSpaces = [];
+  if (STATE.studios > 0) {
+    extraSpaces.push(`${STATE.studios} Studio${STATE.studios > 1 ? 's' : ''}`);
+  }
+  if (STATE.apartments > 0) {
+    extraSpaces.push(`${STATE.apartments} Apartment${STATE.apartments > 1 ? 's' : ''}`);
+  }
+  
+  if (extraSpaces.length > 0) {
+    DOM.printExtraSpaces.textContent = extraSpaces.join(', ');
+    DOM.printExtraSpacesItem.style.display = '';
+  } else {
+    DOM.printExtraSpaces.textContent = 'None';
+    DOM.printExtraSpacesItem.style.display = 'none';
+  }
+}
+
 function calculate() {
   const kpi = computeKPIs(STATE.baseOcc);
   const mort = computeMortgage();
@@ -1536,14 +976,23 @@ function calculate() {
   // SCENARIO ANALYSIS
   renderScenarioTable();
   
-  // SENSITIVITY
-  renderSensitivityChart();
+  // SENSITIVITY (removed per user request)
+  // renderSensitivityChart();
   
   // DETAILED OPEX
   renderOPEXDetailTable(kpi.opex, kpi.totalOPEX);
   
   // 10-YEAR PROJECTION
   render10YearProjection();
+  
+  // PROPERTY SUMMARY (for print)
+  updatePropertySummary();
+  
+  // REALTOR INFO PANEL (for print)
+  updateRealtorInfoPanel();
+  
+  // REPORT DATE
+  updateReportDate();
 }
 
 function renderRevenueChart(rev) {
@@ -1594,11 +1043,12 @@ function renderOPEXChart(opex) {
     { label: 'Insurance', value: opex.insurance },
     { label: 'HOA', value: opex.hoa },
     { label: 'Reserve', value: opex.reserve },
-    { label: 'Gov', value: opex.gov }
+    { label: 'Gov', value: opex.gov },
+    { label: 'Mortgage', value: opex.mortgage || 0 }
   ];
   const total = data.reduce((s, d) => s + d.value, 0);
   
-  const colors = ['#1fb6ff','#12d0b4','#31d158','#ffc107','#ff5a5f','#9b59b6','#3498db','#e67e22','#95a5a6'];
+  const colors = ['#1fb6ff','#12d0b4','#31d158','#ffc107','#ff5a5f','#9b59b6','#3498db','#e67e22','#95a5a6','#e74c3c'];
   
   let svg = `<svg width="100%" height="400" viewBox="0 0 700 400">`;
   let startAngle = 0;
@@ -1619,7 +1069,7 @@ function renderOPEXChart(opex) {
   });
   
   // Legend
-  let ly = 50;
+  let ly = 20;
   data.forEach((d, i) => {
     svg += `<rect x="450" y="${ly}" width="20" height="20" fill="${colors[i % colors.length]}"/>`;
     svg += `<text x="480" y="${ly + 15}" fill="#e9eefb" font-size="14">${d.label}: ${fmt.pct(total > 0 ? d.value / total * 100 : 0, 1)}</text>`;
@@ -1689,12 +1139,12 @@ function renderWaterfallTable(kpi) {
 
 function renderScenarioTable() {
   let html = '';
-  for (let occ = 30; occ <= 85; occ += 5) {
+  for (let occ = 30; occ <= 100; occ += 5) {
     const kpi = computeKPIs(occ);
     const investment = STATE.totalInv ? fromCur(STATE.totalInv, STATE.currency) : fromCur(STATE.price, STATE.currency);
     const roi = (kpi.ownerNet / investment) * 100;
     const highlight = Math.abs(occ - STATE.baseOcc) <= 2.5 ? 'highlight-row' : '';
-    html += `<tr class="${highlight}">
+    html += `<tr class="${highlight}" data-occupancy="${occ}">
       <td>${occ}%</td>
       <td class="text-right">${fmt.money(toCur(kpi.totalRev, STATE.currency), STATE.currency)}</td>
       <td class="text-right">${fmt.money(toCur(kpi.netAfterOTA, STATE.currency), STATE.currency)}</td>
@@ -1830,7 +1280,8 @@ function renderOPEXDetailTable(opex, total) {
     ['Insurance', opex.insurance],
     ['HOA', opex.hoa],
     ['Repairs Reserve', opex.reserve],
-    ['Gov Taxes/Permits', opex.gov]
+    ['Gov Taxes/Permits', opex.gov],
+    ['Mortgage Payment (P&I)', opex.mortgage || 0]
   ];
   
   let html = '';
@@ -1974,14 +1425,61 @@ function render10YearProjection() {
   document.getElementById('yearChart').innerHTML = svg;
 }
 
-// ===== INIT =====
+/**
+ * Update realtor information panel for print output
+ */
+function updateRealtorInfoPanel() {
+  // Populate realtor info panel
+  document.getElementById('printAgentName').textContent = STATE.realtorName || '—';
+  document.getElementById('printAgentCompany').textContent = STATE.realtorCompany || '—';
+  
+  // Build contact string
+  const contactParts = [];
+  if (STATE.realtorPhone) contactParts.push(STATE.realtorPhone);
+  if (STATE.realtorEmail) contactParts.push(STATE.realtorEmail);
+  if (STATE.realtorWebsite) contactParts.push(STATE.realtorWebsite);
+  document.getElementById('printAgentContact').textContent = contactParts.join(' • ') || '—';
+  
+  // Copy realtor logo to panel
+  const realtorLogoPreview = document.getElementById('realtorLogoPreview');
+  const printAgentLogo = document.getElementById('printAgentLogo');
+  if (realtorLogoPreview && realtorLogoPreview.src && realtorLogoPreview.src !== window.location.href) {
+    printAgentLogo.src = realtorLogoPreview.src;
+    printAgentLogo.classList.remove('print-logo-hidden');
+  } else {
+    printAgentLogo.src = '';
+    printAgentLogo.classList.add('print-logo-hidden');
+  }
+}
+
+/**
+ * Update report generation date
+ */
+function updateReportDate() {
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('en-US', { 
+    year: 'numeric', 
+    month: 'long', 
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+  const reportDateEl = document.getElementById('reportDate');
+  if (reportDateEl) {
+    reportDateEl.textContent = dateStr;
+  }
+}
+
+// ===== INITIALIZATION =====
+
+/**
+ * Initialize the application
+ * Cache DOM elements, bind events, and perform initial calculation
+ */
 document.addEventListener('DOMContentLoaded', () => {
+  cacheDOMElements();
   bindInputs();
   syncInputsToState();
   syncBrandingToPrint();
   calculate();
 });
-</script>
-
-</body>
-</html>
