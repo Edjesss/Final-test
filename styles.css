@@ -435,7 +435,7 @@ tr:hover {
 @media print {
   @page {
     size: A4 portrait;
-    margin: 24mm 12mm 14mm 12mm; /* top right bottom left */
+    margin: 20mm 15mm 20mm 15mm; /* top right bottom left */
   }
 
   * {
@@ -465,7 +465,7 @@ tr:hover {
     height: auto;
     min-height: 14mm;
     background: #f8f9fa !important;
-    padding: 2mm 6mm;
+    padding: 3mm 8mm;
     border-bottom: 1pt solid #1fb6ff;
     z-index: 999;
   }
@@ -517,6 +517,7 @@ tr:hover {
     grid-template-columns: repeat(4, 1fr);
     gap: 0.5rem;
     margin-bottom: 1rem;
+    margin-top: 0.5rem;
     padding: 0.75rem;
     background: #f8f9fa !important;
     border-radius: 4px;
@@ -581,7 +582,8 @@ tr:hover {
     box-shadow: none;
     border: 1pt solid #e0e0e0;
     page-break-inside: avoid;
-    margin-bottom: 0.75rem;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
     padding: 0.75rem;
     border-radius: 4px;
   }
@@ -591,16 +593,16 @@ tr:hover {
     font-size: 10pt;
     font-weight: 600;
     margin-bottom: 0.5rem;
-    margin-top: 1rem;
+    margin-top: 0.75rem;
     border-bottom: 1pt solid #1fb6ff;
     padding-bottom: 0.25rem;
-    padding-top: 2mm;
+    padding-top: 0.5rem;
   }
-  
+
   /* First h2 after header needs extra margin */
   .card:first-of-type h2 {
     margin-top: 0;
-    padding-top: 2mm;
+    padding-top: 0.5rem;
   }
 
   h3 {
@@ -620,7 +622,7 @@ tr:hover {
     font-size: 7pt;
     width: 100%;
     border-collapse: collapse;
-    margin: 0.5rem 0;
+    margin: 0.75rem 0;
     background: #ffffff !important;
     border-radius: 4px;
     overflow: hidden;
@@ -672,7 +674,8 @@ tr:hover {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 0.5rem;
-    margin-bottom: 0.75rem;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
     page-break-before: always !important;
     page-break-inside: avoid !important;
   }
@@ -700,7 +703,7 @@ tr:hover {
   }
 
   .chart-container {
-    margin: 0.5rem 0;
+    margin: 0.75rem 0;
     background: #ffffff !important;
     padding: 0.5rem;
     border-radius: 4px;
@@ -764,7 +767,8 @@ tr:hover {
   #realtorInfoPanel {
     background: #f8f9fa !important;
     border: 1pt solid #e0e0e0;
-    margin-bottom: 0.75rem;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
     page-break-after: avoid;
   }
 
@@ -819,7 +823,8 @@ tr:hover {
     display: grid !important;
     grid-template-columns: 1fr 1fr;
     gap: 0.75rem;
-    margin-bottom: 0.75rem;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
     page-break-after: avoid;
   }
 
@@ -878,7 +883,8 @@ tr:hover {
   .disclaimer-section {
     background: #f8f9fa !important;
     border: 1.5pt solid #e0e0e0;
-    margin-top: 1rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
     font-size: 6.5pt;
     line-height: 1.4;
     page-break-before: avoid;
@@ -945,11 +951,12 @@ tr:hover {
   #tenYearSection {
     page-break-before: always !important;
     page-break-inside: avoid !important;
-    margin-top: 1.5rem !important;
+    margin-top: 1rem !important;
   }
-  
+
   #tenYearSection h2 {
     margin-top: 0 !important;
+    padding-top: 0.5rem !important;
   }
 
   /* Page breaks */
