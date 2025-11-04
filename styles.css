@@ -435,7 +435,7 @@ tr:hover {
 @media print {
   @page {
     size: A4 portrait;
-    margin: 18mm 12mm 14mm 12mm; /* top right bottom left */
+    margin: 24mm 12mm 14mm 12mm; /* top right bottom left */
   }
 
   * {
@@ -463,9 +463,9 @@ tr:hover {
     left: 0;
     right: 0;
     height: auto;
-    min-height: 12mm;
+    min-height: 14mm;
     background: #f8f9fa !important;
-    padding: 2mm 4mm;
+    padding: 2mm 6mm;
     border-bottom: 1pt solid #1fb6ff;
     z-index: 999;
   }
@@ -491,8 +491,8 @@ tr:hover {
   }
 
   #printBlueLogo, #printRealtorLogo {
-    max-height: 7mm;
-    max-width: 50px;
+    max-height: 8mm;
+    max-width: 60px;
   }
 
   .print-blue-text {
@@ -945,32 +945,11 @@ tr:hover {
   #tenYearSection {
     page-break-before: always !important;
     page-break-inside: avoid !important;
-    margin-top: 0.5rem !important;
+    margin-top: 1.5rem !important;
   }
   
   #tenYearSection h2 {
     margin-top: 0 !important;
-    font-size: 9pt !important;
-    margin-bottom: 0.3rem !important;
-  }
-  
-  /* Make 10-year section more compact to fit on one page */
-  #tenYearSection .chart-container {
-    margin: 0.3rem 0 !important;
-    padding: 0.3rem !important;
-  }
-  
-  #tenYearSection .chart-container svg {
-    max-height: 35mm !important;
-  }
-  
-  #tenYearSection table {
-    font-size: 6pt !important;
-  }
-  
-  #tenYearSection th,
-  #tenYearSection td {
-    padding: 0.1rem 0.25rem !important;
   }
 
   /* Page breaks */
